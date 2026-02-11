@@ -17,54 +17,51 @@ const ServicesOverview: React.FC = () => {
       <div className="container mx-auto px-8 max-w-[1440px]">
         <div 
           className="content-services flex flex-col items-start space-y-2"
-          style={{
-            fontFamily: '"Inter", "Helvetica Neue", Helvetica, Arial, sans-serif',
-          }}
         >
-          {/* Consulting */}
+          {/* Monitoring */}
           <div 
             className="title-service text-large"
             style={{
               fontSize: 'clamp(3rem, 10vw, 8rem)',
-              fontWeight: 700,
+              fontWeight: 100,
               lineHeight: 1.1,
               letterSpacing: '-0.04em',
               color: 'rgb(0, 0, 0)',
               textTransform: 'lowercase',
             }}
           >
-            Consulting
+            Monitoring
           </div>
 
-          {/* Branding - UX Design */}
+          {/* Analysis - AI Prediction */}
           <div 
             className="title-service text-large text-hyphen flex items-center flex-wrap"
             style={{
               fontSize: 'clamp(3rem, 10vw, 8rem)',
-              fontWeight: 700,
+              fontWeight: 100,
               lineHeight: 1.1,
               letterSpacing: '-0.04em',
               color: 'rgb(0, 0, 0)',
               textTransform: 'lowercase',
             }}
           >
-            Branding 
+            Analysis 
             <div 
-              className="hyphen mx-[0.2em] w-[0.8em] h-[4px] bg-black inline-block align-middle"
+              className="hyphen mx-[0.2em] w-[0.8em] h-[4px] bg-[#3B82C4] inline-block align-middle"
               style={{
                 height: 'clamp(4px, 0.5vw, 8px)',
                 width: 'clamp(40px, 8vw, 120px)',
               }}
             ></div>
-            <span className="font-normal opacity-100">UX Design</span>
+            <span className="font-thin opacity-100">AI Prediction</span>
           </div>
 
-          {/* - Development */}
+          {/* - Alerts */}
           <div 
             className="title-service text-large text-hyphen flex items-center"
             style={{
               fontSize: 'clamp(3rem, 10vw, 8rem)',
-              fontWeight: 700,
+              fontWeight: 100,
               lineHeight: 1.1,
               letterSpacing: '-0.04em',
               color: 'rgb(0, 0, 0)',
@@ -72,21 +69,21 @@ const ServicesOverview: React.FC = () => {
             }}
           >
             <div 
-              className="hyphen mr-[0.2em] w-[0.8em] h-[4px] bg-black inline-block align-middle"
+              className="hyphen mr-[0.2em] w-[0.8em] h-[4px] bg-[#3B82C4]  inline-block align-middle"
               style={{
                 height: 'clamp(4px, 0.5vw, 8px)',
                 width: 'clamp(40px, 8vw, 120px)',
               }}
             ></div>
-            <strong className="font-bold">Development</strong>
+            <strong className="font-bold">Alerts</strong>
           </div>
 
-          {/* Optimization */}
+          {/* Simulation */}
           <div 
             className="title-service text-large"
             style={{
               fontSize: 'clamp(3rem, 10vw, 8rem)',
-              fontWeight: 700,
+              fontWeight: 100,
               lineHeight: 1.1,
               letterSpacing: '-0.04em',
               color: 'rgb(0, 0, 0)',
@@ -94,14 +91,14 @@ const ServicesOverview: React.FC = () => {
               paddingLeft: 'clamp(2rem, 15vw, 10rem)',
             }}
           >
-            Optimization
+            Simulation
           </div>
         </div>
       </div>
 
       <style jsx global>{`
         .text-large {
-          font-variation-settings: "wght" 700;
+          font-variation-settings: "wght" 100;
         }
         
         @media (max-width: 768px) {

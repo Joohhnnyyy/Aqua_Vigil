@@ -83,11 +83,11 @@ const AgencyTeam = () => {
         <div className="grid grid-cols-12 gap-10 mb-24">
           <div className="col-span-12 lg:col-span-8">
             <h4 className="text-[14px] font-medium uppercase tracking-[0.1em] text-[#666666] mb-8">
-              L'Équipe
+              The Team
             </h4>
             <h2 className="text-[clamp(2.5rem,5vw,3.5rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-black">
-              Les Loomers. <br />
-              <span className="text-[#666666]">Une expertise collective au service de votre vision.</span>
+              The AquaVigil Team. <br />
+              <span className="text-[#666666]">Collective expertise for water sustainability.</span>
             </h2>
           </div>
         </div>
@@ -120,13 +120,13 @@ const AgencyTeam = () => {
         {/* Bottom Bar / Join Us */}
         <div className="mt-32 pt-20 border-t border-[#E2E8F0] flex flex-col md:flex-row justify-between items-start md:items-center">
           <p className="text-[1.125rem] text-[#666666] max-w-md m-0">
-            Nous sommes toujours à la recherche de nouveaux talents passionnés par le design et la technologie.
+            We are always looking for new talent passionate about environmental technology and sustainability.
           </p>
           <a 
-            href="mailto:jobs@pixelloom.fr" 
+            href="mailto:careers@aquavigil.com" 
             className="mt-8 md:mt-0 text-black text-[1.125rem] font-semibold cta-underline flex items-center gap-2"
           >
-            Rejoindre l'aventure
+            Join our mission
             <svg 
               width="15" 
               height="15" 

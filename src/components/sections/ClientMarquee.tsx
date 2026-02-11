@@ -6,44 +6,42 @@ const ClientMarquee = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const clientTypes = [
-    "Companies",
-    "Craftsmen",
-    "Artists",
-    "Brands",
-    "Institutions",
+    "Municipalities",
+    "Environmental Agencies",
+    "Research Institutes",
     "NGOs",
-    "Universities",
-    "Consultants",
-    "Startups",
-    "Freelancers",
-    "Studios",
-    "Agencies",
-    "Publishers",
+    "Urban Planners",
+    "Agricultural Sectors",
+    "Utility Companies",
+    "Emergency Services",
+    "Government Bodies",
+    "Conservation Groups",
   ];
 
   const values = [
-    "Expertise",
-    "Creativity",
-    "Commitment",
-    "Reliability",
-    "Trust",
+    "River Health",
+    "Flood AI",
+    "Water Quality",
+    "Erosion Tracking",
+    "Real-time Data",
+    "Sustainability",
   ];
 
   // Repeat values for infinite marquee effect
-  const marqueeValues = [...values, ...values, ...values, ...values];
+  const marqueeValues = [...values, ...values, ...values, ...values, ...values, ...values];
 
   return (
     <section className="customer bg-[#fafafa] overflow-hidden">
       <div className="box-scroll relative">
         {/* Vertical client list with reveal effect */}
-        <div className="content-all-customers_en pt-[120px] pb-[60px] flex flex-col items-center">
+        <div className="content-all-customers_en pt-[120px] pb-[60px] flex flex-col items-end pr-[5%] text-right gap-y-4 sm:gap-y-8">
           {clientTypes.map((type, idx) => (
             <div
               key={idx}
-              className="ref-text-mask overflow-hidden h-[100px] sm:h-[130px] md:h-[150px]"
+              className="ref-text-mask h-auto"
             >
               <div
-                className={`text-big text-[clamp(3.5rem,8vw,12rem)] font-bold leading-[1.1] tracking-[-0.04em] uppercase transition-transform duration-700 ${
+                className={`text-big text-[clamp(3.5rem,8vw,12rem)] font-bold leading-[0.9] tracking-[-0.04em] uppercase transition-transform duration-700 ${
                   type === "NGOs" ? "lowercase" : ""
                 }`}
                 style={{
@@ -58,33 +56,29 @@ const ClientMarquee = () => {
         </div>
 
         {/* Horizontal Parallax Scroller */}
-        <div className="container-fluid border-t border-b border-black py-8 my-20">
+        <div className="container-fluid bg-black py-8 my-20">
           <a href="/aboutus" className="block cursor-pointer outline-none">
             <div className="parallax overflow-hidden whitespace-nowrap">
-              <div className="scroller flex items-center animate-marquee">
+              <div className="scroller flex items-center animate-marquee direction-reverse">
                 {marqueeValues.map((value, idx) => (
                   <span
                     key={idx}
-                    className="text-large inline-flex items-center text-[clamp(2.5rem,5vw,4rem)] font-bold px-8"
+                    className="text-large inline-flex items-center text-[clamp(2.5rem,5vw,4rem)] font-light px-8 uppercase"
                     style={{
                       fontFamily: "var(--font-display)",
-                      color: "#000000",
+                      color: "#ffffff",
                     }}
                   >
                     {value}
-                    <div className="star ml-8">
+                    <div className="star ml-8 text-white">
                       <svg
-                        width="28.747"
-                        height="28.747"
-                        viewBox="0 0 28.747 28.747"
-                        fill="none"
+                        width="40"
+                        height="40"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg"
                       >
-                        <path
-                          id="Tracé_93"
-                          d="M14.373 0L17.766 10.981H28.747L19.864 17.766L23.257 28.747L14.373 21.961L5.49 28.747L8.883 17.766L0 10.981H10.981L14.373 0Z"
-                          fill="currentColor"
-                        />
+                        <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" />
                       </svg>
                     </div>
                   </span>
@@ -100,16 +94,16 @@ const ClientMarquee = () => {
             <span className="block text-[clamp(2rem,4vw,3.5rem)] font-regular leading-[1.2] italic tracking-tight text-black">
               <span className="words block">
                 <span>“</span>
-                {" Let's build a"}
+                {" Protecting our water"}
               </span>
               <span className="words block">
-                {"memorable & inspiring"}
+                {"resources through advanced"}
               </span>
               <span className="words block">
-                {"digital experience"}
+                {"monitoring and AI"}
               </span>
               <span className="words block">
-                {"together. ”"}
+                {"prediction. ”"}
               </span>
             </span>
           </div>
@@ -129,7 +123,7 @@ const ClientMarquee = () => {
                       color: "#000000",
                     }}
                   >
-                    Contact us
+                    Get in touch
                     <div className="pixel w-[20px] h-[20px] bg-black ml-12"></div>
                   </span>
                 ))}

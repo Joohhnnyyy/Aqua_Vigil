@@ -41,9 +41,9 @@ const articles: Article[] = [
   },
   {
     id: '4',
-    category: 'Agency Loft',
-    title: 'Inside Our Paris Studio: Collaboration & Creativity',
-    excerpt: 'A look behind the scenes at how Pixel Loom fosters innovation through physical space and culture.',
+    category: 'Sustainability',
+    title: 'Our Commitment to the Environment: Data & Action',
+    excerpt: 'A look behind the scenes at how AquaVigil fosters innovation through advanced monitoring and AI.',
     date: 'February 28, 2024',
     readTime: '4 min read',
     image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop'

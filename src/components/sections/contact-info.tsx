@@ -25,7 +25,7 @@ const ContactInfo = () => {
                   color: 'var(--foreground)'
                 }}
               >
-                Pixel Loom Paris
+                AquaVigil Headquarters
               </h2>
               <address 
                 className="not-italic space-y-1"
@@ -35,8 +35,8 @@ const ContactInfo = () => {
                   color: '#666666'
                 }}
               >
-                <p className="m-0">128 Rue de la Boétie</p>
-                <p className="m-0">75008 Paris, France</p>
+                <p className="m-0">123 Innovation Drive</p>
+                <p className="m-0">Tech Park, CA 94025</p>
               </address>
             </div>
 
@@ -50,11 +50,11 @@ const ContactInfo = () => {
                     color: '#999999'
                   }}
                 >
-                  Appelez-nous
+                  Call us
                 </span>
                 <a 
-                  href="tel:+33184606450" 
-                  className="hover:text-[#337ab7] transition-colors duration-300"
+                  href="tel:+15551234567" 
+                  className="hover:text-[#3b82c4] transition-colors duration-300"
                   style={{
                     fontSize: '18px',
                     fontWeight: 400,
@@ -62,7 +62,7 @@ const ContactInfo = () => {
                     textDecoration: 'none'
                   }}
                 >
-                  +33 (0) 1 84 60 64 50
+                  +1 (555) 123-4567
                 </a>
               </div>
 
@@ -75,11 +75,11 @@ const ContactInfo = () => {
                     color: '#999999'
                   }}
                 >
-                  Écrivez-nous
+                  Email us
                 </span>
                 <a 
-                  href="mailto:hello@pixelloom.fr" 
-                  className="hover:text-[#337ab7] transition-colors duration-300"
+                  href="mailto:hello@aquavigil.com" 
+                  className="hover:text-[#3b82c4] transition-colors duration-300"
                   style={{
                     fontSize: '18px',
                     fontWeight: 400,
@@ -87,7 +87,7 @@ const ContactInfo = () => {
                     textDecoration: 'none'
                   }}
                 >
-                  hello@pixelloom.fr
+                  hello@aquavigil.com
                 </a>
               </div>
             </div>
@@ -101,7 +101,7 @@ const ContactInfo = () => {
                   color: '#999999'
                 }}
               >
-                Suivez-nous
+                Follow us
               </span>
               <div className="flex space-x-6">
                 <a 
@@ -151,7 +151,7 @@ const ContactInfo = () => {
                   fontStyle: 'italic'
                 }}
               >
-                Travaillons ensemble pour donner vie à vos projets digitaux les plus ambitieux. Notre équipe basée à Paris vous accompagne de la stratégie à la production technique.
+                Working together to protect our most vital resource. Our team based in California supports you with data-driven insights and environmental monitoring solutions.
               </p>
             </div>
           </div>

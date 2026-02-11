@@ -138,11 +138,11 @@ export default function ContactPage() {
                 </h3>
                 <div className="space-y-4">
                   <p className="text-[40px] font-bold leading-tight lowercase">
-                    Paris
+                    California
                     <br />
-                    Agence Pixel Loom
+                    AquaVigil Headquarters
                     <br />
-                    10 Rue du Louvre, 75001
+                    123 Innovation Drive, Tech Park, CA 94025
                   </p>
                   <a
                     href="https://maps.google.com"
@@ -165,10 +165,10 @@ export default function ContactPage() {
                       Mail
                     </span>
                     <a
-                      href="mailto:hello@pixelloom.com"
+                      href="mailto:hello@aquavigil.com"
                       className="text-[32px] font-bold hover:text-[#3b82c4] transition-colors"
                     >
-                      hello@pixelloom.com
+                      hello@aquavigil.com
                     </a>
                   </div>
                   <div>
@@ -209,7 +209,7 @@ export default function ContactPage() {
               {[...Array(10)].map((_, i) => (
                 <div key={i} className="flex items-center mx-4">
                   <span className="text-[64px] font-bold uppercase tracking-tighter">
-                    New projects
+                    Protecting Rivers
                   </span>
                   <div className="w-[15px] h-[15px] bg-black mx-12"></div>
                 </div>
@@ -222,12 +222,12 @@ export default function ContactPage() {
         <footer className="px-8 lg:px-20 py-12">
           <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-end gap-8 border-t border-[#f0f0f0] pt-12">
             <div className="text-[14px] font-light text-[#666666]">
-              &copy;2024 Pixel Loom Paris. All rights reserved.
+              &copy;2026 AquaVigil. All rights reserved.
             </div>
             <div className="flex flex-col items-end">
               <div className="pixel-accent mb-4 w-3 h-3 bg-black"></div>
               <div className="text-[14px] font-bold uppercase italic tracking-widest">
-                Made with love in Paris
+                Engineered in California
               </div>
             </div>
           </div>

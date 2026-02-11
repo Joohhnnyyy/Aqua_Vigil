@@ -4,20 +4,20 @@ import React, { useState } from 'react';
 
 const expertisesData = [
   {
-    title: "Visual Identity",
-    subservices: ["Logo", "Brand guideline", "Content Creation", "Signage"]
+    title: "River Health",
+    subservices: ["Water Quality", "Pollution Detection", "Biodiversity", "Flow Rate"]
   },
   {
-    title: "Digital Marketing",
-    subservices: ["Digital Strategy", "SEO", "Online Advertising", "Community Management", "Email Marketing", "Performance Analysis"]
+    title: "Erosion Tracking",
+    subservices: ["LiDAR Scanning", "Bank Line Detection", "Sediment Analysis", "Trend Forecasting"]
   },
   {
-    title: "Web Development",
-    subservices: ["Website Design", "E-commerce Website", "Website Redesign", "Blog", "Web Application", "Hosting, Maintenance & Support"]
+    title: "Flood Simulation",
+    subservices: ["Predictive Modeling", "Risk Assessment", "Inundation Mapping", "Scenario Planning"]
   },
   {
-    title: "Creative Development",
-    subservices: ["Immersive Experience", "Promotional Website", "Animation & Motion Design", "3D"]
+    title: "Real-time Alerts",
+    subservices: ["Instant Notification", "Critical Event Warning", "Data Anomalies", "Status Reports"]
   }
 ];
 
@@ -83,7 +83,7 @@ const Expertises = () => {
         <div className="content-header mb-20 flex flex-col md:flex-row md:items-end md:justify-between">
           <div className="header-section">
             <div className="legend mb-4">
-              <WaveText text="Expertise down to the pixel" />
+              <WaveText text="Precision down to the drop" />
             </div>
             <div className="brand">
               <h2 className="text-big text-[3rem] md:text-[8rem] font-bold leading-[0.9] tracking-[-0.04em] uppercase">

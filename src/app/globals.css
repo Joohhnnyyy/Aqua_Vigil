@@ -48,8 +48,8 @@
   --color-sidebar-border: #000000;
   --color-sidebar-ring: #3b82c4;
 
-  --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-display: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-sans: var(--font-satoshi), "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: var(--font-satoshi), "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   --radius-lg: 0px;
   --radius-md: 0px;

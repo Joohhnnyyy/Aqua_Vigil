@@ -23,7 +23,7 @@ const Contact = () => {
   return (
     <div className="bg-[#FFFFFF] min-h-screen text-[#000000] font-sans">
       <Head>
-        <title>Contact | Pixel Loom - Agence web Paris</title>
+        <title>Contact | AquaVigil - Contact</title>
       </Head>
 
       {/* Persistent Sidebar (Simplified for standalone page) */}
@@ -139,9 +139,9 @@ const Contact = () => {
                 <h3 className="text-[14px] font-bold uppercase mb-8 tracking-widest text-[#666666]">Locate us</h3>
                 <div className="space-y-4">
                   <p className="text-[40px] font-bold leading-tight lowercase">
-                    Paris<br />
-                    Agence Pixel Loom<br />
-                    10 Rue du Louvre, 75001
+                    California<br />
+                    AquaVigil Headquarters<br />
+                    123 Innovation Drive, Tech Park, CA 94025
                   </p>
                   <a 
                     href="https://maps.google.com" 
@@ -160,8 +160,8 @@ const Contact = () => {
                 <div className="space-y-6">
                   <div>
                     <span className="block text-[12px] uppercase mb-1 font-bold text-[#666666]">Mail</span>
-                    <a href="mailto:hello@pixelloom.com" className="text-[32px] font-bold hover:text-[#3b82c4] transition-colors">
-                      hello@pixelloom.com
+                    <a href="mailto:hello@aquavigil.com" className="text-[32px] font-bold hover:text-[#3b82c4] transition-colors">
+                      hello@aquavigil.com
                     </a>
                   </div>
                   <div>
@@ -196,7 +196,7 @@ const Contact = () => {
         <footer className="px-8 lg:px-20 py-12">
           <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-end gap-8 border-t border-[#f0f0f0] pt-12">
             <div className="text-[14px] font-light text-[#666666]">
-              ©2024 Pixel Loom Paris. All rights reserved.
+              ©2024 AquaVigil. All rights reserved.
             </div>
             <div className="flex flex-col items-end">
               <div className="pixel-accent mb-4 w-3 h-3 bg-black"></div>

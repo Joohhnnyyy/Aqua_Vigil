@@ -1,11 +1,21 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
 import { VisualEditsMessenger } from "orchids-visual-edits";
 import Script from "next/script";
 
+const satoshi = localFont({
+  src: "../fonts/Satoshi-Variable.ttf",
+  variable: "--font-satoshi",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Pixel Loom — Agence Web Paris",
-  description: "Pixel Loom est une agence créative spécialisée dans la conception et le développement d'expériences numériques haut de gamme.",
+  title: "AquaVigil",
+  description: "Advanced water monitoring and flood tracking system",
+  icons: {
+    icon: "/black-logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -15,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className="antialiased">
+      <body className={`${satoshi.variable} antialiased`}>
         <Script
           id="orchids-browser-logs"
           src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/scripts/orchids-browser-logs.js"

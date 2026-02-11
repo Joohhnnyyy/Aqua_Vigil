@@ -23,7 +23,7 @@ const Agency = () => {
     }, observerOptions);
 
     if (sectionRef.current) {
-      const maskElements = sectionRef.current.querySelectorAll('.text-medium > div');
+      const maskElements = sectionRef.current.querySelectorAll('.line-mask');
       maskElements.forEach((el) => observer.observe(el));
     }
 
@@ -50,8 +50,8 @@ const Agency = () => {
             </span>
           </div>
           <div className="brand border-b border-black pb-4">
-            <h2 className="text-[clamp(3rem,10vw,8rem)] font-bold tracking-tighter leading-[1.1] lowercase">
-              Agency
+            <h2 className="text-[clamp(3rem,10vw,8rem)] font-bold tracking-tighter leading-[1.1] uppercase">
+              Mission
             </h2>
           </div>
         </div>
@@ -61,7 +61,7 @@ const Agency = () => {
           {/* Left Side Static Text */}
           <div className="lg:col-span-4 self-center">
             <div className="text-[2.5rem] font-medium leading-tight text-gray-400">
-              Serving
+              Protecting
             </div>
           </div>
 
@@ -70,14 +70,14 @@ const Agency = () => {
             <div className="max-w-[800px]">
               <div className="flex flex-col gap-1">
                 {[
-                  "Our agency sets itself apart by",
-                  "providing technical expertise",
-                  "from the outset of your project",
-                  "to support you with a bespoke",
-                  "and customized approach",
-                  "that meets your needs."
+                  "AquaVigil sets itself apart by",
+                  "providing real-time data",
+                  "from across the river network",
+                  "to support you with accurate",
+                  "and actionable insights",
+                  "that protect our waters."
                 ].map((line, idx) => (
-                  <div key={idx} className="overflow-hidden">
+                  <div key={idx} className="overflow-hidden line-mask">
                     <div 
                       className={`text-medium text-[clamp(1.5rem,4vw,2.5rem)] leading-[1.2] tracking-tight transform transition-transform duration-1000 ease-out translate-y-full opacity-0 [transition-delay:${idx * 150}ms] [.is-visible_&]:translate-y-0 [.is-visible_&]:opacity-100`}
                     >
@@ -85,7 +85,7 @@ const Agency = () => {
                         <span className="relative inline-block">
                           {line.split(" ")[0]} {line.split(" ")[1]} 
                           <span className="relative">
-                             {" "}technical expertise
+                             {" "}real-time data
                             <svg 
                               className="absolute -bottom-1 left-0 w-full"
                               width="318" 
@@ -131,8 +131,8 @@ const Agency = () => {
                 ))}
               </div>
 
-              {/* About Us CTA */}
-              <div className="mt-12 opacity-0 transform translate-y-10 transition-all duration-1000 delay-1000 [.is-visible_&]:opacity-100 [.is-visible_&]:translate-y-0">
+              {/* About Us & Dashboard CTA */}
+              <div className="mt-12 opacity-0 transform translate-y-10 transition-all duration-1000 delay-1000 [.is-visible_&]:opacity-100 [.is-visible_&]:translate-y-0 flex gap-8">
                 <a 
                   href="/aboutus" 
                   className="inline-flex items-center gap-2 group text-[1.1rem] font-light"
@@ -141,6 +141,18 @@ const Agency = () => {
                   <span className="relative overflow-hidden">
                     <span className="inline-block transition-transform duration-300 group-hover:-translate-y-full">About us</span>
                     <span className="absolute top-full left-0 inline-block transition-transform duration-300 group-hover:-translate-y-full text-[#3B82C4]">About us</span>
+                  </span>
+                  <span className="text-black">]</span>
+                </a>
+
+                <a 
+                  href="/dashboard" 
+                  className="inline-flex items-center gap-2 group text-[1.1rem] font-light"
+                >
+                  <span className="text-black">[</span>
+                  <span className="relative overflow-hidden">
+                    <span className="inline-block transition-transform duration-300 group-hover:-translate-y-full">Dashboard</span>
+                    <span className="absolute top-full left-0 inline-block transition-transform duration-300 group-hover:-translate-y-full text-[#3B82C4]">Dashboard</span>
                   </span>
                   <span className="text-black">]</span>
                 </a>

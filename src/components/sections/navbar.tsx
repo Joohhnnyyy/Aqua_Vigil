@@ -17,8 +17,8 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: "Agence", href: "/#agency" },
-    { name: "Expertises", href: "/#expertises" },
+    { name: "Mission", href: "/#agency" },
+    { name: "Features", href: "/#expertises" },
     { name: "Articles", href: "/articles" },
     { name: "Contact", href: "/contact" },
   ];
@@ -35,14 +35,14 @@ const Navbar = () => {
           <div className="relative w-8 h-8 md:w-10 md:h-10">
             <Image
               src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3fc41ebf-6cc6-48d3-935a-dba65c5c420c-pxloom-com/assets/icons/favicon180x180-4.png"
-              alt="Pixel Loom"
+              alt="AquaVigil"
               fill
               className="object-contain"
               priority
             />
           </div>
           <span className="text-[20px] font-bold tracking-tight text-black">
-            Pixel Loom
+            AquaVigil
           </span>
         </a>
 

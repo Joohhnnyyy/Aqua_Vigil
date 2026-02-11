@@ -64,7 +64,7 @@ export default function ArticlesPage() {
               <p className="max-w-xl text-[24px] md:text-[32px] leading-tight font-normal">
                 Exploring the intersection of{" "}
                 <span className="relative inline-block">
-                  creativity
+                  sustainability
                   <svg
                     className="absolute -bottom-2 left-0 w-full h-2 text-[#3B82C4]"
                     viewBox="0 0 100 10"
@@ -78,7 +78,7 @@ export default function ArticlesPage() {
                     />
                   </svg>
                 </span>{" "}
-                and code through pixel-perfect lenses.
+                and AI through data-driven lenses.
               </p>
               <div className="pixel-accent mb-2 hidden md:block"></div>
             </div>
@@ -158,7 +158,7 @@ export default function ArticlesPage() {
               Twitter [X]
             </a>
           </div>
-          <div>&copy; 2024 Pixel Loom — Made in Paris</div>
+          <div>&copy; 2024 AquaVigil — Engineered in California</div>
           <div className="flex gap-4 items-center">
             <span className="text-[#666666]">Back to top</span>
             <div

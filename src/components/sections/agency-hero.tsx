@@ -24,7 +24,7 @@ const AgencyHero: React.FC = () => {
               color: 'var(--color-primary)' 
             }}
           >
-            L&apos;AGENCE
+            THE MISSION
           </h1>
         </div>
 
@@ -39,7 +39,7 @@ const AgencyHero: React.FC = () => {
                 color: 'var(--color-primary)'
               }}
             >
-              Pixel Loom
+              AquaVigil
             </h2>
           </div>
 
@@ -50,14 +50,14 @@ const AgencyHero: React.FC = () => {
                 className="text-lg md:text-xl lg:text-[22px] leading-[1.6] text-[#333333]"
                 style={{ fontFamily: 'var(--font-sans)', fontWeight: 400 }}
               >
-                Pixel Loom est une agence créative spécialisée dans la conception et le développement d&apos;expériences numériques haut de gamme. Basés à Paris, nous accompagnons les marques dans leur transformation digitale avec une approche mêlant rigueur technique et audace esthétique.
+                AquaVigil is an advanced AI platform specializing in real-time river health monitoring and flood prediction. Based in California, we empower communities and organizations with data-driven insights to protect vital water resources and ensure environmental sustainability.
               </p>
               
               <p 
                 className="text-base md:text-lg leading-[1.7] text-[#666666]"
                 style={{ fontFamily: 'var(--font-sans)', fontWeight: 400 }}
               >
-                Notre philosophie repose sur l&apos;équilibre entre forme et fonction. Nous croyons que chaque pixel doit avoir un but et que la simplicité est la forme ultime de la sophistication. De la stratégie de marque à la mise en ligne, nous tissons des liens solides entre vos idées et leurs réalisations concrètes sur le web.
+                Our philosophy rests on the balance between precision and action. We believe that every data point serves a purpose and that accurate prediction is the ultimate form of protection. From sensor deployment to actionable alerts, we bridge the gap between environmental data and real-world safety.
               </p>
 
               {/* Decorative line separator */}

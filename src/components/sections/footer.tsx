@@ -13,18 +13,18 @@ const Footer = () => {
               <div className="relative w-8 h-8">
                 <Image
                   src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3fc41ebf-6cc6-48d3-935a-dba65c5c420c-pxloom-com/assets/icons/favicon32x32-3.png"
-                  alt="Pixel Loom Logo"
+                  alt="AquaVigil Logo"
                   width={32}
                   height={32}
                   className="object-contain"
                 />
               </div>
               <span className="text-[20px] font-bold tracking-tight text-black font-sans">
-                Pixel Loom
+                AquaVigil
               </span>
             </div>
             <p className="text-[#666666] text-[14px] leading-relaxed max-w-[240px]">
-              Avant-garde digital agency specializing in premium web experiences and minimalist design.
+              Advanced AI platform for real-time river health monitoring and flood prediction.
             </p>
           </div>
 
@@ -34,16 +34,16 @@ const Footer = () => {
               Contact
             </h3>
             <a 
-              href="mailto:hello@pxloom.com" 
+              href="mailto:hello@aquavigil.com" 
               className="text-[16px] text-[#1A1A1A] hover:text-[#337AB7] transition-colors duration-300"
             >
-              hello@pxloom.com
+              hello@aquavigil.com
             </a>
             <a 
-              href="tel:+33100000000" 
+              href="tel:+15550000000" 
               className="text-[16px] text-[#1A1A1A] hover:text-[#337AB7] transition-colors duration-300"
             >
-              +33 (0)1 00 00 00 00
+              +1 (555) 000-0000
             </a>
           </div>
 
@@ -51,20 +51,11 @@ const Footer = () => {
           <div className="flex flex-col space-y-8 md:space-y-0 md:flex-row lg:flex-col lg:space-y-8 gap-8">
             <div className="flex flex-col space-y-3">
               <h3 className="text-[12px] font-bold uppercase tracking-wider text-black">
-                Paris Office
+                Headquarters
               </h3>
               <address className="not-italic text-[14px] text-[#666666] leading-6">
-                12 Rue de la Paix<br />
-                75002 Paris, France
-              </address>
-            </div>
-            <div className="flex flex-col space-y-3">
-              <h3 className="text-[12px] font-bold uppercase tracking-wider text-black">
-                Porto Office
-              </h3>
-              <address className="not-italic text-[14px] text-[#666666] leading-6">
-                Rua de Santa Catarina<br />
-                4000-447 Porto, Portugal
+                123 Innovation Drive<br />
+                Tech Park, CA 94025
               </address>
             </div>
           </div>
@@ -114,7 +105,7 @@ const Footer = () => {
         {/* Footer Bottom */}
         <div className="mt-16 md:mt-24 pt-8 border-t border-[#F5F5F5] flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-[12px] text-[#666666] font-medium uppercase tracking-tight">
-            © {new Date().getFullYear()} Pixel Loom. All rights reserved.
+            © {new Date().getFullYear()} AquaVigil. All rights reserved.
           </p>
           <div className="flex items-center space-x-6">
             <a href="/legal" className="text-[12px] text-[#666666] hover:text-black transition-colors uppercase font-bold tracking-tight">

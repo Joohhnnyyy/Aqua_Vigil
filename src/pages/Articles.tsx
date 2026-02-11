@@ -42,7 +42,7 @@ const Articles = () => {
   return (
     <div className="min-h-screen bg-[#FFFFFF] text-[#000000] selection:bg-[#3B82C4] selection:text-white">
       <Head>
-        <title>Articles | Pixel Loom - Expert Insights</title>
+        <title>Articles | AquaVigil - Expert Insights</title>
       </Head>
 
       {/* Sidebar - Consistent with High Level Design */}
@@ -148,7 +148,7 @@ const Articles = () => {
             <a href="#" className="hover:line-through transition-all">LinkedIn</a>
             <a href="#" className="hover:line-through transition-all">Twitter [X]</a>
           </div>
-          <div>© 2024 Pixel Loom — Made in Paris</div>
+          <div>© 2024 AquaVigil — Engineered in California</div>
           <div className="flex gap-4 items-center">
             <span className="text-[#666666]">Back to top</span>
             <div className="w-3 h-3 bg-black cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}></div>

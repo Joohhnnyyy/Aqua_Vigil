@@ -33,7 +33,7 @@ const AgencyValues: React.FC = () => {
                 letterSpacing: '0.1em'
               }}
             >
-              Philosophie
+              Philosophy
             </span>
             <h2 
               className="font-display text-foreground leading-[1.1] tracking-tight"
@@ -43,7 +43,7 @@ const AgencyValues: React.FC = () => {
                 maxWidth: '10ch'
               }}
             >
-              L&apos;agence digitale de demain.
+              The future of water monitoring.
             </h2>
           </div>
 
@@ -59,7 +59,7 @@ const AgencyValues: React.FC = () => {
                   marginBottom: '2.5rem'
                 }}
               >
-                Pixel Loom est un studio de création digitale basé à Paris. Nous accompagnons les marques dans leur transformation numérique à travers une approche mêlant design d&apos;exception et excellence technique.
+                AquaVigil is a river health monitoring platform. We assist organizations in their environmental stewardship through an approach combining exceptional data accuracy and technical excellence.
               </p>
               
               <div className="space-y-6">
@@ -70,7 +70,7 @@ const AgencyValues: React.FC = () => {
                     lineHeight: '1.6'
                   }}
                 >
-                  Notre philosophie repose sur la conviction que le design n&apos;est pas seulement une question d&apos;apparence, mais une solution stratégique aux problèmes complexes. Nous privilégions la qualité à la quantité, le sur-mesure au standardisé.
+                  Our philosophy is based on the conviction that monitoring is not just about data collection, but a strategic solution to complex environmental challenges. We prioritize accuracy over volume, and actionable insights over raw numbers.
                 </p>
                 
                 <p 
@@ -80,7 +80,7 @@ const AgencyValues: React.FC = () => {
                     lineHeight: '1.6'
                   }}
                 >
-                  Chaque projet est une opportunité de repousser les limites de l&apos;expérience utilisateur. Nous travaillons en étroite collaboration avec nos clients pour créer des produits digitaux qui non seulement répondent à leurs besoins, mais surpassent leurs attentes.
+                  Every project is an opportunity to push the boundaries of environmental protection. We work closely with our partners to create monitoring solutions that not only meet their needs but exceed their expectations for safety and sustainability.
                 </p>
               </div>
 
@@ -95,7 +95,7 @@ const AgencyValues: React.FC = () => {
                     letterSpacing: '0.05em'
                   }}
                 >
-                  Découvrir notre approche
+                  Discover our approach
                 </a>
               </div>
             </div>
@@ -106,18 +106,18 @@ const AgencyValues: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-24 pt-16 border-t border-[#E2E8F0]">
           <div>
             <h3 className="text-[2.5rem] font-bold mb-2">01</h3>
-            <h4 className="text-label text-foreground mb-4">Artisanat Digital</h4>
-            <p className="text-sm text-[#666666]">Une attention méticuleuse portée à chaque pixel et chaque ligne de code.</p>
+            <h4 className="text-label text-foreground mb-4">Precision Engineering</h4>
+            <p className="text-sm text-[#666666]">Meticulous attention to every sensor reading and data point.</p>
           </div>
           <div>
             <h3 className="text-[2.5rem] font-bold mb-2">02</h3>
-            <h4 className="text-label text-foreground mb-4">Innovation</h4>
-            <p className="text-sm text-[#666666]">Exploration continue des nouvelles technologies pour des solutions durables.</p>
+            <h4 className="text-label text-foreground mb-4">AI-Driven Insights</h4>
+            <p className="text-sm text-[#666666]">Continuous exploration of new technologies for sustainable solutions.</p>
           </div>
           <div>
             <h3 className="text-[2.5rem] font-bold mb-2">03</h3>
-            <h4 className="text-label text-foreground mb-4">Engagement</h4>
-            <p className="text-sm text-[#666666]">Un partenariat fondé sur la transparence et la recherche de l&apos;excellence.</p>
+            <h4 className="text-label text-foreground mb-4">Sustainability</h4>
+            <p className="text-sm text-[#666666]">A partnership founded on transparency and the pursuit of excellence.</p>
           </div>
         </div>
       </div>

@@ -48,7 +48,7 @@ const Preloader = () => {
     <div
       id="preloader"
       className={cn(
-        "fixed inset-0 z-[9999] flex items-center justify-center transition-opacity duration-700 ease-[cubic-bezier(0.7,0,0.3,1)] bg-[#FAFAFA]",
+        "fixed font-sans inset-0 z-[9999] flex items-center justify-center transition-opacity duration-700 ease-[cubic-bezier(0.7,0,0.3,1)] bg-[#FAFAFA]",
         count === 100 && !isVisible ? "opacity-0" : "opacity-100"
       )}
       style={{
@@ -96,14 +96,12 @@ const Preloader = () => {
           }}
         >
           <span 
-            className="count font-serif text-[120px] leading-[1.1]"
-            style={{ fontFamily: "var(--font-serif), Didot, 'Times New Roman', serif" }}
+            className="count font-sans text-[120px] leading-[1.1] font-light"
           >
             {count}
           </span>
           <span 
             className="text-medium ml-1 font-sans text-sm font-medium"
-            style={{ fontFamily: 'var(--font-sans), "Satoshi-Variable", sans-serif' }}
           >
             %
           </span>

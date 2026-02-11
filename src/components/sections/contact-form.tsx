@@ -36,13 +36,13 @@ const ContactForm = () => {
             <div className="space-y-12">
               {/* Paris Office */}
               <div>
-                <h3 className="text-[#000000] font-medium text-[24px] mb-4">Paris</h3>
+                <h3 className="text-[#000000] font-medium text-[24px] mb-4">California</h3>
                 <div className="text-[#666666] text-[16px] leading-[1.6] space-y-1">
-                  <p>15 Rue de la Paix</p>
-                  <p>75002 Paris, France</p>
+                  <p>123 Innovation Drive</p>
+                  <p>Tech Park, CA 94025</p>
                   <p className="pt-2">
-                    <a href="tel:+33123456789" className="hover:text-[#337ab7] transition-colors">
-                      +33 (0)1 23 45 67 89
+                    <a href="tel:+15551234567" className="hover:text-[#337ab7] transition-colors">
+                      +1 (555) 123-4567
                     </a>
                   </p>
                 </div>
@@ -53,8 +53,8 @@ const ContactForm = () => {
                 <h3 className="text-[#000000] font-medium text-[24px] mb-4">Inquiries</h3>
                 <div className="text-[#666666] text-[16px] leading-[1.6] space-y-1">
                   <p>
-                    <a href="mailto:hello@pixelloom.fr" className="hover:text-[#337ab7] transition-colors border-b border-transparent hover:border-[#337ab7]">
-                      hello@pixelloom.fr
+                    <a href="mailto:hello@aquavigil.com" className="hover:text-[#337ab7] transition-colors border-b border-transparent hover:border-[#337ab7]">
+                      hello@aquavigil.com
                     </a>
                   </p>
                 </div>
