@@ -1,17 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { 
-  RocketLaunch, 
-  House,
-  SquaresFour,
-  CloudRain,
-  Drop,
-  Mountains,
-  Warning,
-  MapTrifold,
-  Pulse,
   VideoCamera,
   Export,
   WaveSine,
@@ -22,12 +13,15 @@ import {
   ArrowsOutSimple,
   MagnifyingGlassPlus,
   MagnifyingGlassMinus,
-  Compass
+  Compass,
+  MapTrifold
 } from "@phosphor-icons/react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import AppSidebar from "@/components/AppSidebar";
+import { useSidebar } from "@/components/SidebarProvider";
 import {
   Area,
   AreaChart,
@@ -41,41 +35,31 @@ import {
 } from "recharts";
 
 export default function RiverHealthPage() {
+  const { isCollapsed: isSidebarCollapsed, toggleSidebar } = useSidebar();
+
   return (
     <div className="flex min-h-screen bg-black text-zinc-50 font-sans selection:bg-blue-500/30">
       {/* Sidebar */}
-      <aside className="w-24 flex flex-col items-center py-8 border-r border-zinc-800 bg-black fixed h-full z-10">
-        <div className="mb-8 p-3 bg-zinc-900 rounded-2xl">
-          <RocketLaunch className="w-6 h-6 text-white" weight="fill" />
-        </div>
-        
-        <nav className="flex flex-col gap-6 flex-1 w-full items-center">
-          <NavItem icon={<House className="w-6 h-6" />} href="/" />
-          <NavItem icon={<SquaresFour className="w-6 h-6" />} href="/dashboard" />
-          <NavItem icon={<CloudRain className="w-6 h-6" />} href="/flood-simulation" />
-          <NavItem icon={<Drop className="w-6 h-6" />} href="/river-health" active />
-          <NavItem icon={<Mountains className="w-6 h-6" />} href="/erosion" />
-          <NavItem icon={<Warning className="w-6 h-6" />} href="/alerts" />
-          <NavItem icon={<MapTrifold className="w-6 h-6" />} href="/map" />
-          <NavItem icon={<Pulse className="w-6 h-6" />} href="/monitoring" />
-        </nav>
-      </aside>
+      <AppSidebar 
+        isCollapsed={isSidebarCollapsed} 
+        onToggle={toggleSidebar} 
+      />
 
       {/* Main Content */}
-      <main className="flex-1 ml-24 p-8 lg:p-12 overflow-y-auto">
+      <main className={`flex-1 p-8 lg:p-12 overflow-y-auto transition-all duration-300 ${isSidebarCollapsed ? "ml-24" : "ml-64"}`}>
         {/* Header */}
         <header className="flex justify-between items-start mb-8">
           <div>
-            <h1 className="text-3xl font-semibold tracking-tight mb-2">River Health Monitor</h1>
+            <h1 className="text-3xl font-semibold tracking-tight mb-2 capitalize">River Health Monitor</h1>
             <p className="text-zinc-400">AI-powered water quality analysis and pollution detection</p>
           </div>
           
           <div className="flex items-center gap-3">
-            <Button variant="outline" className="bg-white border-zinc-200 rounded-[2rem] text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900 shadow-sm">
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white rounded-[2rem] border-0 shadow-sm shadow-blue-900/20">
               <VideoCamera className="w-4 h-4 mr-2" />
               Live Feed
             </Button>
-            <Button variant="outline" className="bg-white border-zinc-200 rounded-[2rem] text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900 shadow-sm">
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white rounded-[2rem] border-0 shadow-sm shadow-blue-900/20">
               <Export className="w-4 h-4 mr-2" />
               Export Report
             </Button>
@@ -83,7 +67,7 @@ export default function RiverHealthPage() {
         </header>
 
         {/* Top Metrics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
           <MetricCard 
             icon={<WaveSine className="w-5 h-5 text-yellow-500" />}
             label="Dissolved Oxygen"
@@ -92,7 +76,6 @@ export default function RiverHealthPage() {
             trend="-0.8"
             trendColor="text-red-500"
             color="border-yellow-500/20"
-            highlight={true}
           />
           <MetricCard 
             icon={<Eye className="w-5 h-5 text-blue-500" />}
@@ -339,42 +322,28 @@ const pollutionData = [
 ];
 
 // Components
-function NavItem({ icon, active = false, href }: { icon: React.ReactNode; active?: boolean; href: string }) {
-  return (
-    <Link href={href} className="w-full px-4">
-      <div className={`
-        relative p-3 rounded-xl cursor-pointer transition-all duration-300 group flex justify-center
-        ${active ? "text-white bg-zinc-900" : "text-zinc-600 hover:text-white hover:bg-zinc-900"}
-      `}>
-        {active && (
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-blue-600 rounded-r-full shadow-[0_0_10px_rgba(37,99,235,0.5)]"></div>
-        )}
-        {icon}
-      </div>
-    </Link>
-  );
-}
-
-function MetricCard({ icon, label, value, unit, trend, trendColor, color, highlight = false }: { icon: React.ReactNode, label: string, value: string, unit: string, trend: string, trendColor: string, color?: string, highlight?: boolean }) {
+function MetricCard({ icon, label, value, unit, trend, trendColor, color }: { icon: React.ReactNode, label: string, value: string, unit: string, trend: string, trendColor: string, color?: string }) {
   return (
     <Card className={`
-      border-0 relative overflow-hidden transition-all duration-300 hover:scale-[1.02] rounded-[2rem]
-      ${highlight ? "bg-blue-600 text-white" : "bg-white text-black"}
+      relative overflow-hidden transition-all duration-300 hover:scale-[1.02] rounded-[2rem] py-0
+      bg-zinc-900/30 text-white border border-zinc-800
+      hover:bg-blue-600 hover:border-blue-600 hover:shadow-lg hover:shadow-blue-900/20
+      group
     `}>
-      <CardContent className="p-6">
-        <div className="flex justify-between items-start mb-4">
-          <div className={`p-3 rounded-full backdrop-blur-md ${highlight ? "bg-white/30" : "bg-black/5"}`}>
+      <CardContent className="p-8 h-full flex flex-col justify-between">
+        <div className="flex justify-between items-start mb-6">
+          <div className={`p-3 rounded-full backdrop-blur-md transition-colors bg-zinc-900 border border-zinc-800 group-hover:bg-white/20 group-hover:border-white/10`}>
             {icon}
           </div>
-          <Badge variant="outline" className={`border-0 ${highlight ? "bg-blue-500 text-white" : "bg-zinc-100 text-zinc-700"}`}>
+          <Badge variant="outline" className={`border-0 px-3 py-1 rounded-full transition-colors bg-zinc-900 text-zinc-400 border border-zinc-800 group-hover:bg-blue-500 group-hover:text-white`}>
             {trend}
           </Badge>
         </div>
         <div>
-          <p className={`text-sm font-medium mb-1 ${highlight ? "text-blue-100" : "text-zinc-500"}`}>{label}</p>
-          <div className="flex items-baseline gap-1">
-            <span className="text-3xl font-semibold tracking-tight">{value}</span>
-            <span className={`text-sm ${highlight ? "text-blue-100" : "text-zinc-500"}`}>{unit}</span>
+          <p className={`text-base font-medium mb-2 transition-colors text-zinc-400 group-hover:text-blue-100`}>{label}</p>
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-4xl font-semibold tracking-tight">{value}</span>
+            <span className={`text-sm font-medium transition-colors text-zinc-500 group-hover:text-blue-100`}>{unit}</span>
           </div>
         </div>
       </CardContent>

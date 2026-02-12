@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { 
   RocketLaunch, 
@@ -29,6 +29,8 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import AppSidebar from "@/components/AppSidebar";
+import { useSidebar } from "@/components/SidebarProvider";
 import {
   LineChart,
   Line,
@@ -49,34 +51,23 @@ import {
 } from "@/components/ui/table";
 
 export default function ErosionPage() {
+  const { isCollapsed: isSidebarCollapsed, toggleSidebar } = useSidebar();
   const [comparisonValue, setComparisonValue] = React.useState(50);
 
   return (
     <div className="flex min-h-screen bg-black text-zinc-50 font-sans selection:bg-blue-500/30">
       {/* Sidebar */}
-      <aside className="w-24 flex flex-col items-center py-8 border-r border-zinc-800 bg-black fixed h-full z-10">
-        <div className="mb-8 p-3 bg-zinc-900 rounded-2xl">
-          <RocketLaunch className="w-6 h-6 text-white" weight="fill" />
-        </div>
-        
-        <nav className="flex flex-col gap-6 flex-1 w-full items-center">
-          <NavItem icon={<House className="w-6 h-6" />} href="/" />
-          <NavItem icon={<SquaresFour className="w-6 h-6" />} href="/dashboard" />
-          <NavItem icon={<CloudRain className="w-6 h-6" />} href="/flood-simulation" />
-          <NavItem icon={<Drop className="w-6 h-6" />} href="/river-health" />
-          <NavItem icon={<Mountains className="w-6 h-6" />} href="/erosion" active />
-          <NavItem icon={<Warning className="w-6 h-6" />} href="/alerts" />
-          <NavItem icon={<MapTrifold className="w-6 h-6" />} href="/map" />
-          <NavItem icon={<Pulse className="w-6 h-6" />} href="/monitoring" />
-        </nav>
-      </aside>
+      <AppSidebar 
+        isCollapsed={isSidebarCollapsed} 
+        onToggle={toggleSidebar} 
+      />
 
       {/* Main Content */}
-      <main className="flex-1 ml-24 p-8 lg:p-12 overflow-y-auto">
+      <main className={`flex-1 p-8 lg:p-12 overflow-y-auto transition-all duration-300 ${isSidebarCollapsed ? "ml-24" : "ml-64"}`}>
         {/* Header */}
         <header className="flex justify-between items-start mb-8">
           <div>
-            <h1 className="text-3xl font-semibold tracking-tight mb-2">Erosion Tracking</h1>
+            <h1 className="text-3xl font-semibold tracking-tight mb-2 capitalize">Erosion Tracking</h1>
             <p className="text-zinc-400">LiDAR-based riverbank erosion monitoring with centimeter accuracy</p>
           </div>
           
@@ -100,7 +91,6 @@ export default function ErosionPage() {
             value="-5.2"
             unit="meters avg"
             trend="-2.1m"
-            highlight={true}
             trendColor="text-red-500"
             color="border-red-500/20"
           />
@@ -396,45 +386,30 @@ const erosionTrendData = [
   { month: 'Dec', "Sector 7": 888.6, "Yamuna Confluence": 1481, "Delta Region": 592.4 },
 ];
 
-// Components
-function NavItem({ icon, active = false, href }: { icon: React.ReactNode; active?: boolean; href: string }) {
-  return (
-    <Link href={href} className="w-full px-4">
-      <div className={`
-        relative p-3 rounded-xl cursor-pointer transition-all duration-300 group flex justify-center
-        ${active ? "text-white bg-zinc-900" : "text-zinc-600 hover:text-white hover:bg-zinc-900"}
-      `}>
-        {active && (
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-blue-600 rounded-r-full shadow-[0_0_10px_rgba(37,99,235,0.5)]"></div>
-        )}
-        {icon}
-      </div>
-    </Link>
-  );
-}
-
-function MetricCard({ icon, label, value, unit, trend, trendColor, color, highlight = false }: { icon: React.ReactNode, label: string, value: string, unit: string, trend?: string, trendColor?: string, color?: string, highlight?: boolean }) {
+function MetricCard({ icon, label, value, unit, trend, trendColor, color }: { icon: React.ReactNode, label: string, value: string, unit: string, trend?: string, trendColor?: string, color?: string }) {
   return (
     <Card className={`
       relative overflow-hidden transition-all duration-300 hover:scale-[1.02] rounded-[2rem]
-      ${highlight ? "bg-blue-600 text-white border-0" : "bg-zinc-900 text-white border border-zinc-800"}
+      bg-zinc-900/30 text-white border border-zinc-800
+      hover:bg-blue-600 hover:border-blue-600 hover:shadow-lg hover:shadow-blue-900/20
+      group
     `}>
       <CardContent className="p-6">
         <div className="flex justify-between items-start mb-4">
-          <div className={`p-3 rounded-full backdrop-blur-md ${highlight ? "bg-white/30" : "bg-zinc-800"}`}>
+          <div className={`p-3 rounded-full backdrop-blur-md transition-colors bg-zinc-900 border border-zinc-800 group-hover:bg-white/20 group-hover:border-white/10`}>
             {icon}
           </div>
           {trend && (
-            <Badge variant="outline" className={`border-0 ${highlight ? "bg-blue-500 text-white" : "bg-zinc-800 text-zinc-300"}`}>
+            <Badge variant="outline" className={`border-0 transition-colors bg-zinc-800 text-zinc-300 group-hover:bg-blue-500 group-hover:text-white`}>
               {trend}
             </Badge>
           )}
         </div>
         <div>
-          <p className={`text-sm font-medium mb-1 ${highlight ? "text-blue-100" : "text-zinc-400"}`}>{label}</p>
+          <p className={`text-sm font-medium mb-1 transition-colors text-zinc-400 group-hover:text-blue-100`}>{label}</p>
           <div className="flex items-baseline gap-1">
             <span className="text-3xl font-semibold tracking-tight">{value}</span>
-            <span className={`text-sm ${highlight ? "text-blue-100" : "text-zinc-400"}`}>{unit}</span>
+            <span className={`text-sm transition-colors text-zinc-400 group-hover:text-blue-100`}>{unit}</span>
           </div>
         </div>
       </CardContent>

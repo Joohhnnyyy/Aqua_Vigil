@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { 
   RocketLaunch, 
@@ -16,13 +16,24 @@ import {
   Waves,
   Thermometer,
   Wind,
-  WarningCircle
+  WarningCircle,
+  CaretRight,
+  X,
+  Play,
+  Siren,
+  FileText,
+  DownloadSimple,
+  ShareNetwork,
+  ArrowsClockwise
 } from "@phosphor-icons/react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import AppSidebar from "@/components/AppSidebar";
+import { useSidebar } from "@/components/SidebarProvider";
 import { 
   LineChart, 
   Line, 
@@ -36,6 +47,8 @@ import {
 } from "recharts";
 
 export default function DashboardPage() {
+  const { isCollapsed: isSidebarCollapsed, toggleSidebar } = useSidebar();
+
   // Mock Data for Weather
   const weatherData = [
     { day: "Mon", temperature: 28, rainfall: 0 },
@@ -63,8 +76,7 @@ export default function DashboardPage() {
       title: "Water Level",
       value: "12.4m",
       change: "+0.2m",
-      icon: <Waves className="w-6 h-6 text-blue-400" />,
-      highlight: false
+      icon: <Waves className="w-6 h-6 text-white" />,
     },
     {
       title: "Flow Rate",
@@ -72,7 +84,6 @@ export default function DashboardPage() {
       unit: "m³/s",
       change: "-12",
       icon: <Wind className="w-6 h-6 text-cyan-400" />,
-      highlight: false
     },
     {
       title: "Turbidity",
@@ -80,39 +91,39 @@ export default function DashboardPage() {
       unit: "NTU",
       change: "+2.1",
       icon: <Drop className="w-6 h-6 text-yellow-400" />,
-      highlight: false
     },
     {
       title: "Active Alerts",
+      value: "0",
+      change: "new",
+      icon: <WarningCircle className="w-6 h-6 text-green-400" />,
+    },
+    {
+      title: "Erosion Zones",
       value: "3",
-      change: "Critical",
-      icon: <WarningCircle className="w-6 h-6 text-red-400" />,
-      highlight: true
+      change: "critical",
+      unit: "critical",
+      icon: <Mountains className="w-6 h-6 text-orange-400" />,
+    },
+    {
+      title: "Temperature",
+      value: "25",
+      change: "Haze",
+      unit: "°C",
+      icon: <Thermometer className="w-6 h-6 text-cyan-400" />,
     }
   ];
 
   return (
     <div className="flex min-h-screen bg-black text-white font-sans selection:bg-blue-500/30">
       {/* Sidebar */}
-      <aside className="w-24 flex flex-col items-center py-8 border-r border-zinc-800 bg-black fixed h-full z-10">
-        <div className="mb-8 p-3 bg-zinc-900 rounded-2xl">
-          <RocketLaunch className="w-6 h-6 text-white" weight="fill" />
-        </div>
-        
-        <nav className="flex flex-col gap-6 flex-1 w-full items-center">
-          <NavItem icon={<House className="w-6 h-6" />} href="/" />
-          <NavItem icon={<SquaresFour className="w-6 h-6" />} href="/dashboard" active />
-          <NavItem icon={<CloudRain className="w-6 h-6" />} href="/flood-simulation" />
-          <NavItem icon={<Drop className="w-6 h-6" />} href="/river-health" />
-          <NavItem icon={<Mountains className="w-6 h-6" />} href="/erosion" />
-          <NavItem icon={<Warning className="w-6 h-6" />} href="/alerts" />
-          <NavItem icon={<MapTrifold className="w-6 h-6" />} href="/map" />
-          <NavItem icon={<Pulse className="w-6 h-6" />} href="/monitoring" />
-        </nav>
-      </aside>
+      <AppSidebar 
+        isCollapsed={isSidebarCollapsed} 
+        onToggle={toggleSidebar} 
+      />
 
       {/* Main Content */}
-      <main className="flex-1 ml-24 p-8 lg:p-12 overflow-y-auto">
+      <main className={`flex-1 p-8 lg:p-12 overflow-y-auto transition-all duration-300 ${isSidebarCollapsed ? "ml-24" : "ml-64"}`}>
         {/* Top Bar */}
         <header className="flex justify-between items-center mb-10">
           <div>
@@ -138,33 +149,93 @@ export default function DashboardPage() {
           </div>
         </header>
 
+        {/* Alert Banner */}
+        <div className="mb-8 p-4 rounded-[1.5rem] bg-red-900/10 border border-red-900/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative overflow-hidden group">
+          <div className="absolute inset-0 bg-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+          <div className="flex items-start gap-4 z-10">
+            <div className="p-3 rounded-full bg-red-500/20 text-red-500">
+              <Warning className="w-6 h-6" weight="fill" />
+            </div>
+            <div>
+              <div className="flex items-center gap-3 mb-1">
+                <h3 className="font-semibold text-red-500">Flash Flood Warning</h3>
+                <span className="text-zinc-500 text-sm">21/1/2026, 11:00:09 AM</span>
+              </div>
+              <p className="text-zinc-400 text-sm">
+                Rapid water level rise detected. Expected depth: 2.4m in next 2 hours. • Ganga Basin - Sector 7
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-3 z-10 self-end md:self-center">
+            <Badge variant="secondary" className="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border-zinc-700 cursor-pointer">
+              +4 more
+            </Badge>
+            <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-full">
+              <CaretRight className="w-5 h-5" />
+            </Button>
+            <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-full">
+              <X className="w-5 h-5" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-wrap items-center gap-3 mb-8 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+          <Button className="bg-blue-600 hover:bg-cyan-600 text-white rounded-xl font-medium px-6">
+            <Play className="w-4 h-4 mr-2" weight="fill" />
+            Run Simulation
+          </Button>
+          
+          <Button variant="outline" className="bg-transparent border-red-500/20 text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-xl px-6">
+            <Siren className="w-4 h-4 mr-2" />
+            Trigger Alert
+          </Button>
+          
+          <Button variant="secondary" className="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-xl px-6">
+            <FileText className="w-4 h-4 mr-2" />
+            Generate Report
+          </Button>
+          
+          <Button variant="secondary" className="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-xl px-6">
+            <DownloadSimple className="w-4 h-4 mr-2" />
+            Export Data
+          </Button>
+          
+          <Button variant="secondary" className="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-xl px-6">
+            <ShareNetwork className="w-4 h-4 mr-2" />
+            Share View
+          </Button>
+          
+          <Button variant="secondary" className="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-xl px-6">
+            <ArrowsClockwise className="w-4 h-4 mr-2" />
+            Sync Data
+          </Button>
+        </div>
+
         {/* Metrics Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {metrics.map((metric, i) => (
             <Card 
               key={i} 
-              className={`border-zinc-800 bg-zinc-900/30 text-white rounded-[1.5rem] overflow-hidden ${
-                metric.highlight ? "ring-1 ring-red-500/20 bg-red-500/5" : ""
-              }`}
+              className="rounded-[2rem] overflow-hidden min-h-[220px] flex flex-col justify-between transition-all duration-300 hover:scale-[1.02] bg-zinc-900/30 text-white border border-zinc-800 hover:bg-blue-600 hover:border-blue-600 hover:shadow-lg hover:shadow-blue-900/20 group"
             >
-              <CardContent className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <div className={`p-2 rounded-xl bg-zinc-900/50 border border-zinc-800`}>
+              <CardContent className="h-full flex flex-col justify-between p-8">
+                <div className="flex justify-between items-start">
+                  <p className="font-medium text-base text-zinc-400 group-hover:text-blue-100 transition-colors">{metric.title}</p>
+                  <div className="p-3 rounded-full backdrop-blur-md bg-zinc-800/50 border border-zinc-700/50 group-hover:bg-white/20 group-hover:border-white/10 text-white transition-colors">
                     {metric.icon}
                   </div>
-                  {metric.highlight && (
-                    <span className="flex h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
-                  )}
                 </div>
                 <div>
-                  <p className="text-zinc-500 text-sm mb-1">{metric.title}</p>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-medium">{metric.value}</span>
-                    {metric.unit && <span className="text-zinc-500 text-sm">{metric.unit}</span>}
+                  <div className="flex items-baseline gap-2 mb-2">
+                    <span className="text-5xl font-semibold tracking-tight text-white">{metric.value}</span>
+                    {metric.unit && <span className="text-lg font-medium text-zinc-500 group-hover:text-blue-100 transition-colors">{metric.unit}</span>}
                   </div>
-                  <p className={`text-xs mt-2 ${
+                  <p className={`text-sm font-medium transition-colors group-hover:text-blue-50 ${
                     metric.change.includes("+") ? "text-green-400" : 
-                    metric.change.includes("-") ? "text-blue-400" : "text-red-400"
+                    metric.change.includes("-") ? "text-blue-400" : 
+                    metric.change === "new" ? "text-red-400" : "text-zinc-500"
                   }`}>
                     {metric.change}
                   </p>
@@ -282,21 +353,5 @@ export default function DashboardPage() {
         </div>
       </main>
     </div>
-  );
-}
-
-function NavItem({ icon, active = false, href }: { icon: React.ReactNode; active?: boolean; href: string }) {
-  return (
-    <Link href={href}>
-      <div className={`
-        relative p-3 rounded-xl cursor-pointer transition-all duration-300 group
-        ${active ? "text-white" : "text-zinc-600 hover:text-white hover:bg-zinc-900"}
-      `}>
-        {active && (
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-blue-600 rounded-r-full shadow-[0_0_10px_rgba(37,99,235,0.5)]"></div>
-        )}
-        {icon}
-      </div>
-    </Link>
   );
 }

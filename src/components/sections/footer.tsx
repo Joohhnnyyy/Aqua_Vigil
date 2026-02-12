@@ -1,120 +1,68 @@
 import React from 'react';
-import Image from 'next/image';
+import Link from 'next/link';
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="w-full bg-white border-t border-[#E0E0E0] py-16 md:py-24">
-      <div className="container mx-auto px-[5%] max-w-[1440px]">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
-          
-          {/* Agency Mini-Logo & Brand */}
-          <div className="flex flex-col space-y-6">
-            <div className="flex items-center space-x-3">
-              <div className="relative w-8 h-8">
-                <Image
-                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3fc41ebf-6cc6-48d3-935a-dba65c5c420c-pxloom-com/assets/icons/favicon32x32-3.png"
-                  alt="AquaVigil Logo"
-                  width={32}
-                  height={32}
-                  className="object-contain"
-                />
-              </div>
-              <span className="text-[20px] font-bold tracking-tight text-black font-sans">
-                AquaVigil
-              </span>
-            </div>
-            <p className="text-[#666666] text-[14px] leading-relaxed max-w-[240px]">
-              Advanced AI platform for real-time river health monitoring and flood prediction.
-            </p>
-          </div>
+    <footer className="w-full bg-[#FAFAFA] text-black pt-20 pb-8 px-6 md:px-12 font-sans border-t-2 border-b-2">
+      {/* Top Section: Brand Name */}
+      <div className="flex justify-center mb-8 relative">
+        <h1 className="text-[12vw] leading-none font-medium tracking-tighter text-black select-none">
+          AquaVigil
+        </h1>
+        <span className="text-xl md:text-3xl font-light absolute top-2 right-[8%] md:right-[23%]">©</span>
+      </div>
 
-          {/* Contact Information */}
-          <div className="flex flex-col space-y-4">
-            <h3 className="text-[12px] font-bold uppercase tracking-wider text-black mb-2">
-              Contact
-            </h3>
-            <a 
-              href="mailto:hello@aquavigil.com" 
-              className="text-[16px] text-[#1A1A1A] hover:text-[#337AB7] transition-colors duration-300"
-            >
-              hello@aquavigil.com
-            </a>
-            <a 
-              href="tel:+15550000000" 
-              className="text-[16px] text-[#1A1A1A] hover:text-[#337AB7] transition-colors duration-300"
-            >
-              +1 (555) 000-0000
-            </a>
-          </div>
+      {/* Divider */}
+      <div className="w-full h-px bg-zinc-200 mb-12"></div>
 
-          {/* Office Locations */}
-          <div className="flex flex-col space-y-8 md:space-y-0 md:flex-row lg:flex-col lg:space-y-8 gap-8">
-            <div className="flex flex-col space-y-3">
-              <h3 className="text-[12px] font-bold uppercase tracking-wider text-black">
-                Headquarters
-              </h3>
-              <address className="not-italic text-[14px] text-[#666666] leading-6">
-                123 Innovation Drive<br />
-                Tech Park, CA 94025
-              </address>
-            </div>
-          </div>
-
-          {/* Social Media Links */}
-          <div className="flex flex-col space-y-4">
-            <h3 className="text-[12px] font-bold uppercase tracking-wider text-black mb-2">
-              Follow Us
-            </h3>
-            <div className="flex flex-col space-y-3">
-              <a 
-                href="https://instagram.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-[14px] font-medium text-[#1A1A1A] hover:text-[#337AB7] transition-colors duration-300 w-fit"
-              >
-                Instagram
-              </a>
-              <a 
-                href="https://linkedin.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-[14px] font-medium text-[#1A1A1A] hover:text-[#337AB7] transition-colors duration-300 w-fit"
-              >
-                LinkedIn
-              </a>
-              <a 
-                href="https://twitter.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-[14px] font-medium text-[#1A1A1A] hover:text-[#337AB7] transition-colors duration-300 w-fit"
-              >
-                Twitter / X
-              </a>
-              <a 
-                href="https://behance.net" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-[14px] font-medium text-[#1A1A1A] hover:text-[#337AB7] transition-colors duration-300 w-fit"
-              >
-                Behance
-              </a>
-            </div>
-          </div>
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 mb-24">
+        {/* Left Column: Tagline */}
+        <div className="flex flex-col space-y-6">
+          <div className="text-2xl font-light">+</div>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-normal leading-tight max-w-2xl text-zinc-900">
+            Engineering the Pulse<br />
+            of River Health.
+          </h2>
         </div>
 
-        {/* Footer Bottom */}
-        <div className="mt-16 md:mt-24 pt-8 border-t border-[#F5F5F5] flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-          <p className="text-[12px] text-[#666666] font-medium uppercase tracking-tight">
-            © {new Date().getFullYear()} AquaVigil. All rights reserved.
-          </p>
-          <div className="flex items-center space-x-6">
-            <a href="/legal" className="text-[12px] text-[#666666] hover:text-black transition-colors uppercase font-bold tracking-tight">
-              Legal Notice
-            </a>
-            <a href="/privacy" className="text-[12px] text-[#666666] hover:text-black transition-colors uppercase font-bold tracking-tight">
-              Privacy Policy
-            </a>
-          </div>
+        {/* Right Column: Navigation */}
+        <div className="flex flex-col items-end md:items-end space-y-2 pt-12">
+          <Link href="/" className="text-xl md:text-2xl text-zinc-600 hover:text-black transition-colors">
+            Home
+          </Link>
+          <Link href="/dashboard" className="text-xl md:text-2xl text-zinc-600 hover:text-black transition-colors">
+            Platform
+          </Link>
+          <Link href="/solutions" className="text-xl md:text-2xl text-zinc-600 hover:text-black transition-colors">
+            Solutions
+          </Link>
+          <Link href="/about" className="text-xl md:text-2xl text-zinc-600 hover:text-black transition-colors">
+            About Us
+          </Link>
+        </div>
+      </div>
+
+      {/* Bottom Section */}
+      <div className="flex flex-col md:flex-row justify-between items-end md:items-center text-[10px] md:text-xs font-bold tracking-widest text-zinc-400 uppercase pt-8 border-t border-zinc-200">
+        {/* Locations */}
+        <div className="flex space-x-6 mb-4 md:mb-0">
+          <span>Tokyo</span>
+          <span>San Francisco</span>
+          <span>London</span>
+        </div>
+
+        {/* Legal & Copyright */}
+        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 text-right md:text-left">
+          <span>©AQUAVIGIL {currentYear}</span>
+          <span className="hidden md:inline">|</span>
+          <Link href="/terms" className="hover:text-zinc-600 transition-colors">
+            Terms of Service
+          </Link>
+          <span className="hidden md:inline">|</span>
+          <span>AquaVigil Inc.</span>
         </div>
       </div>
     </footer>

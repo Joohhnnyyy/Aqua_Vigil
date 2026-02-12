@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { 
   RocketLaunch, 
@@ -26,6 +26,8 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import AppSidebar from "@/components/AppSidebar";
+import { useSidebar } from "@/components/SidebarProvider";
 import {
   AreaChart,
   Area,
@@ -37,32 +39,22 @@ import {
 } from "recharts";
 
 export default function MonitoringPage() {
+  const { isCollapsed: isSidebarCollapsed, toggleSidebar } = useSidebar();
+
   return (
     <div className="flex min-h-screen bg-black text-zinc-50 font-sans selection:bg-green-500/30">
       {/* Sidebar */}
-      <aside className="w-24 flex flex-col items-center py-8 border-r border-zinc-800 bg-black fixed h-full z-10">
-        <div className="mb-8 p-3 bg-zinc-900 rounded-2xl">
-          <RocketLaunch className="w-6 h-6 text-white" weight="fill" />
-        </div>
-        
-        <nav className="flex flex-col gap-6 flex-1 w-full items-center">
-          <NavItem icon={<House className="w-6 h-6" />} href="/" />
-          <NavItem icon={<SquaresFour className="w-6 h-6" />} href="/dashboard" />
-          <NavItem icon={<CloudRain className="w-6 h-6" />} href="/flood-simulation" />
-          <NavItem icon={<Drop className="w-6 h-6" />} href="/river-health" />
-          <NavItem icon={<Mountains className="w-6 h-6" />} href="/erosion" />
-          <NavItem icon={<Warning className="w-6 h-6" />} href="/alerts" />
-          <NavItem icon={<MapTrifold className="w-6 h-6" />} href="/map" />
-          <NavItem icon={<Pulse className="w-6 h-6" />} href="/monitoring" active />
-        </nav>
-      </aside>
+      <AppSidebar 
+        isCollapsed={isSidebarCollapsed} 
+        onToggle={toggleSidebar} 
+      />
 
       {/* Main Content */}
-      <main className="flex-1 ml-24 p-8 lg:p-12 overflow-y-auto">
+      <main className={`flex-1 p-8 lg:p-12 overflow-y-auto transition-all duration-300 ${isSidebarCollapsed ? "ml-24" : "ml-64"}`}>
         {/* Header */}
         <header className="flex justify-between items-start mb-8">
           <div>
-            <h1 className="text-3xl font-semibold tracking-tight mb-2">Live Monitoring</h1>
+            <h1 className="text-3xl font-semibold tracking-tight mb-2 capitalize">Live Monitoring</h1>
             <p className="text-zinc-500">Real-time system health and data pipeline status</p>
           </div>
           
@@ -80,19 +72,13 @@ export default function MonitoringPage() {
 
         {/* Top Metrics Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <Card className="bg-zinc-900 border border-zinc-800 shadow-sm relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-50"></div>
-            <CardContent className="p-6 relative z-10">
-              <div className="p-2 bg-green-500/10 rounded-lg w-fit mb-4 text-green-500">
-                <WifiHigh className="w-6 h-6" />
-              </div>
-              <p className="text-zinc-400 text-sm mb-1">Active Connections</p>
-              <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-semibold text-white">6</span>
-                <span className="text-sm text-zinc-500">services</span>
-              </div>
-            </CardContent>
-          </Card>
+          <MetricCard 
+            icon={<WifiHigh className="w-6 h-6 text-green-500" />}
+            label="Active Connections"
+            value="6"
+            unit="services"
+            color="border-zinc-800"
+          />
 
           <MetricCard 
             icon={<Clock className="w-6 h-6 text-cyan-500" />}
@@ -300,42 +286,31 @@ const throughputData = [
   { time: '24:00', requests: 1350 },
 ];
 
-// Components
-function NavItem({ icon, active = false, href }: { icon: React.ReactNode; active?: boolean; href: string }) {
+function MetricCard({ 
+  icon, label, value, unit, trend, trendColor, trendIcon, color }: { icon: React.ReactNode, label: string, value: string, unit: string, trend?: string, trendColor?: string, trendIcon?: React.ReactNode, color: string }) {
   return (
-    <Link href={href} className="w-full px-4">
-      <div className={`
-        relative p-3 rounded-xl cursor-pointer transition-all duration-300 group flex justify-center
-        ${active ? "text-white bg-zinc-900" : "text-zinc-600 hover:text-white hover:bg-zinc-900"}
-      `}>
-        {active && (
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-blue-600 rounded-r-full shadow-[0_0_10px_rgba(37,99,235,0.5)]"></div>
-        )}
-        {icon}
-      </div>
-    </Link>
-  );
-}
-
-function MetricCard({ icon, label, value, unit, trend, trendColor, trendIcon, color }: { icon: React.ReactNode, label: string, value: string, unit: string, trend?: string, trendColor?: string, trendIcon?: React.ReactNode, color: string }) {
-  return (
-    <Card className={`bg-zinc-900 border border-zinc-800 shadow-sm relative overflow-hidden group`}>
+    <Card className={`
+      relative overflow-hidden transition-all duration-300 hover:scale-[1.02] rounded-[2rem]
+      bg-zinc-900/30 text-white border border-zinc-800
+      hover:bg-blue-600 hover:border-blue-600 hover:shadow-lg hover:shadow-blue-900/20
+      group
+    `}>
       <CardContent className="p-6">
         <div className="flex justify-between items-start mb-4">
-          <div className="p-2 bg-zinc-800 rounded-lg border border-zinc-700 group-hover:bg-zinc-700 transition-colors">
+          <div className="p-2 rounded-full backdrop-blur-md transition-colors bg-zinc-800 border border-zinc-700 group-hover:bg-white/20 group-hover:border-white/10">
             {icon}
           </div>
           {trend && (
-            <Badge variant="outline" className={`bg-zinc-800 border-zinc-700 ${trendColor} flex gap-1`}>
+            <Badge variant="outline" className={`transition-colors bg-zinc-800 border-zinc-700 ${trendColor} group-hover:bg-blue-500 group-hover:text-white group-hover:border-blue-400 flex gap-1`}>
               {trendIcon}
               {trend}
             </Badge>
           )}
         </div>
-        <p className="text-zinc-400 text-sm mb-1">{label}</p>
+        <p className="text-zinc-400 text-sm mb-1 transition-colors group-hover:text-blue-100">{label}</p>
         <div className="flex items-baseline gap-2">
           <span className="text-3xl font-semibold text-white">{value}</span>
-          <span className="text-sm text-zinc-500">{unit}</span>
+          <span className="text-sm text-zinc-500 transition-colors group-hover:text-blue-100">{unit}</span>
         </div>
       </CardContent>
     </Card>

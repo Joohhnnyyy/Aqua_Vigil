@@ -23,6 +23,16 @@
 # misc
 .DS_Store
 *.pem
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# python
+__pycache__/
+*.py[cod]
+*$py.class
 
 # debug
 npm-debug.log*
@@ -36,3 +46,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Data models
+models/**/*.zip
+models/**/*.tif
+models/**/*.gdb
+models/kolkata/

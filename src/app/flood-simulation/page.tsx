@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { 
   RocketLaunch, 
@@ -36,8 +36,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import AppSidebar from "@/components/AppSidebar";
+import { useSidebar } from "@/components/SidebarProvider";
 
 export default function FloodSimulationPage() {
+  const { isCollapsed: isSidebarCollapsed, toggleSidebar } = useSidebar();
   const [rainfall, setRainfall] = React.useState([50]);
   const [damRelease, setDamRelease] = React.useState([30]);
   const [saturation, setSaturation] = React.useState([65]);
@@ -46,25 +49,13 @@ export default function FloodSimulationPage() {
   return (
     <div className="flex min-h-screen bg-black text-white font-sans selection:bg-blue-500/30">
       {/* Sidebar */}
-      <aside className="w-24 flex flex-col items-center py-8 border-r border-white/10 bg-black fixed h-full z-10">
-        <div className="mb-8 p-3 bg-zinc-900 rounded-2xl">
-          <RocketLaunch className="w-6 h-6 text-white" weight="fill" />
-        </div>
-        
-        <nav className="flex flex-col gap-6 flex-1 w-full items-center">
-          <NavItem icon={<House className="w-6 h-6" />} href="/" />
-          <NavItem icon={<SquaresFour className="w-6 h-6" />} href="/dashboard" />
-          <NavItem icon={<CloudRain className="w-6 h-6" />} href="/flood-simulation" active />
-          <NavItem icon={<Drop className="w-6 h-6" />} href="/river-health" />
-          <NavItem icon={<Mountains className="w-6 h-6" />} href="/erosion" />
-          <NavItem icon={<Warning className="w-6 h-6" />} href="/alerts" />
-          <NavItem icon={<MapTrifold className="w-6 h-6" />} href="/map" />
-          <NavItem icon={<Pulse className="w-6 h-6" />} href="/monitoring" />
-        </nav>
-      </aside>
+      <AppSidebar 
+        isCollapsed={isSidebarCollapsed} 
+        onToggle={toggleSidebar} 
+      />
 
       {/* Main Content */}
-      <main className="flex-1 ml-24 p-8 lg:p-12 overflow-y-auto">
+      <main className={`flex-1 p-8 lg:p-12 overflow-y-auto transition-all duration-300 ${isSidebarCollapsed ? "ml-24" : "ml-64"}`}>
         {/* Header */}
         <header className="flex justify-between items-start mb-10">
           <div>
@@ -115,26 +106,25 @@ export default function FloodSimulationPage() {
         {/* Metrics Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <MetricCard 
-            icon={<Waves className="w-6 h-6 text-white" />}
+            icon={<Waves className="w-6 h-6 text-blue-400" />}
             label="Max Water Depth"
             value="2.4"
             unit="meters"
-            highlight
           />
           <MetricCard 
-            icon={<Clock className="w-6 h-6 text-white" />}
+            icon={<Clock className="w-6 h-6 text-cyan-400" />}
             label="Time to Peak"
             value="6.5"
             unit="hours"
           />
           <MetricCard 
-            icon={<MapPinArea className="w-6 h-6 text-white" />}
+            icon={<MapPinArea className="w-6 h-6 text-purple-400" />}
             label="Affected Area"
             value="12.8"
             unit="km²"
           />
           <MetricCard 
-            icon={<Warning className="w-6 h-6 text-white" />}
+            icon={<Warning className="w-6 h-6 text-red-400" />}
             label="At-Risk Population"
             value="24,500"
             unit=""
@@ -371,25 +361,7 @@ export default function FloodSimulationPage() {
   );
 }
 
-// Components
-
-function NavItem({ icon, active = false, href }: { icon: React.ReactNode; active?: boolean; href: string }) {
-  return (
-    <Link href={href} className="w-full px-4">
-      <div className={`
-        relative p-3 rounded-xl cursor-pointer transition-all duration-300 group flex justify-center
-        ${active ? "text-white" : "text-zinc-600 hover:text-white hover:bg-zinc-900"}
-      `}>
-        {active && (
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-blue-600 rounded-r-full shadow-[0_0_10px_rgba(37,99,235,0.5)]"></div>
-        )}
-        {icon}
-      </div>
-    </Link>
-  );
-}
-
-function ScenarioCard({ title, details, active = false }: { title: string, details: string, active?: boolean }) {
+function ScenarioCard({ title, details, active = false }: { title: string; details: string; active?: boolean }) {
   return (
     <div className={`
       flex-shrink-0 p-4 rounded-2xl border cursor-pointer transition-all w-40
@@ -403,22 +375,24 @@ function ScenarioCard({ title, details, active = false }: { title: string, detai
   );
 }
 
-function MetricCard({ icon, label, value, unit, highlight = false }: { icon: React.ReactNode, label: string, value: string, unit: string, highlight?: boolean }) {
+function MetricCard({ icon, label, value, unit }: { icon: React.ReactNode, label: string, value: string, unit: string }) {
   return (
     <Card className={`
       relative overflow-hidden transition-all duration-300 hover:scale-[1.02] rounded-[2rem]
-      ${highlight ? "bg-blue-600 text-white border-0" : "bg-zinc-900 border border-zinc-800 text-white"}
+      bg-zinc-900/30 text-white border border-zinc-800
+      hover:bg-blue-600 hover:border-blue-600 hover:shadow-lg hover:shadow-blue-900/20
+      group
     `}>
       <CardContent className="px-8 pb-8 pt-8">
         <div className="flex flex-row items-start justify-between mb-4">
-          <p className={`text-base font-normal ${highlight ? "text-blue-100" : "text-zinc-400"}`}>{label}</p>
-          <div className={`p-3 rounded-full backdrop-blur-md ${highlight ? "bg-white/30" : "bg-zinc-800"}`}>
+          <p className={`text-base font-normal transition-colors text-zinc-400 group-hover:text-blue-100`}>{label}</p>
+          <div className={`p-3 rounded-full backdrop-blur-md transition-colors bg-zinc-800 group-hover:bg-white/20 group-hover:border-white/10`}>
             {icon}
           </div>
         </div>
         <div className="mt-2 flex items-baseline gap-2">
           <span className="text-5xl font-medium tracking-tight">{value}</span>
-          <span className={`text-sm ${highlight ? "text-blue-100" : "text-zinc-400"}`}>{unit}</span>
+          <span className={`text-sm transition-colors text-zinc-400 group-hover:text-blue-100`}>{unit}</span>
         </div>
       </CardContent>
     </Card>

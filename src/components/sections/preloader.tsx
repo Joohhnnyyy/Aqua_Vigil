@@ -3,36 +3,44 @@
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
-const Preloader = () => {
+const Preloader = ({ onComplete }: { onComplete?: () => void }) => {
   const [count, setCount] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    const duration = 2000; // 2 seconds total duration
-    const intervalTime = 20; // Update every 20ms
-    const totalSteps = duration / intervalTime;
-    const incrementPerStep = 100 / totalSteps;
+    const duration = 2000; // 2 seconds
+    const startTime = performance.now();
+    let animationFrameId: number;
 
-    let currentCount = 0;
-    const counter = setInterval(() => {
-      currentCount += incrementPerStep;
-      if (currentCount >= 100) {
-        setCount(100);
-        clearInterval(counter);
-        // Delay before fading out
+    const animate = (currentTime: number) => {
+      const elapsedTime = currentTime - startTime;
+      const progress = Math.min((elapsedTime / duration) * 100, 100);
+
+      // Apply a slight easing for smoother feel (easeOutQuad)
+      // const easedProgress = 100 * (1 - (1 - progress / 100) * (1 - progress / 100));
+      // Or stick to linear for consistent counting speed if preferred, but usually easing is "smoother"
+      // User requested "smooth", usually implies high frame rate and maybe easing. 
+      // Let's stick to linear-ish but high precision for now to match the "counter" feel.
+      
+      setCount(progress);
+
+      if (progress < 100) {
+        animationFrameId = requestAnimationFrame(animate);
+      } else {
         setTimeout(() => {
           setIsVisible(false);
+          setTimeout(() => {
+            if (onComplete) onComplete();
+          }, 500); // Wait for preloader fade out
         }, 600);
-      } else {
-        setCount(Math.floor(currentCount));
       }
-    }, intervalTime);
+    };
 
-    // Lock scroll while preloading
+    animationFrameId = requestAnimationFrame(animate);
     document.body.style.overflow = "hidden";
 
     return () => {
-      clearInterval(counter);
+      cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
@@ -71,7 +79,6 @@ const Preloader = () => {
               className="absolute right-0 top-0 h-full bg-[#FAFAFA]"
               style={{
                 width: `${100 - count}%`,
-                transition: "width 20ms linear",
                 backgroundColor: "rgb(250, 250, 250)",
               }}
             />
@@ -82,7 +89,6 @@ const Preloader = () => {
             style={{
               width: "110px",
               left: `${(count / 100) * (100 - (110/800 * 100))}%`, // Adjusting for its own width
-              transition: "left 20ms linear",
             }}
           />
         </div>
@@ -98,7 +104,7 @@ const Preloader = () => {
           <span 
             className="count font-sans text-[120px] leading-[1.1] font-light"
           >
-            {count}
+            {Math.floor(count)}
           </span>
           <span 
             className="text-medium ml-1 font-sans text-sm font-medium"

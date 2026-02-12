@@ -22,9 +22,8 @@ const Navigation = () => {
   const menuItems = [
     { label: "Home", href: "#home" },
     { label: "Dashboard", href: "/dashboard" },
-    { label: "Agency", href: "#agency" },
+    { label: "Missions", href: "#agency" },
     { label: "Expertises", href: "#expertises" },
-    { label: "Articles", href: "#articles" },
     { label: "Contact", href: "/contact" },
   ];
 
@@ -112,7 +111,7 @@ const Navigation = () => {
       >
         {/* Menu Panel - Black */}
         <div 
-          className="w-full md:w-[70%] bg-black h-full text-white flex flex-col justify-center px-24 relative"
+          className="w-full md:w-[70%] bg-black h-full text-white flex flex-col justify-start px-24 pt-32 relative"
         >
           <div className="flex items-start gap-20">
                {/* Menu Items */}

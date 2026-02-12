@@ -2,6 +2,7 @@
 
 import React from "react";
 import Navigation from "@/components/sections/Navigation";
+import Footer from "@/components/sections/footer";
 
 const articles = [
   {
@@ -145,28 +146,8 @@ export default function ArticlesPage() {
           </div>
         </section>
 
-        {/* Simple Footer */}
-        <footer className="px-6 md:px-12 py-12 border-t border-black flex flex-col md:flex-row justify-between items-center gap-8 text-[12px] uppercase tracking-widest">
-          <div className="flex gap-8">
-            <a href="#" className="hover:line-through transition-all">
-              Instagram
-            </a>
-            <a href="#" className="hover:line-through transition-all">
-              LinkedIn
-            </a>
-            <a href="#" className="hover:line-through transition-all">
-              Twitter [X]
-            </a>
-          </div>
-          <div>&copy; 2024 AquaVigil — Engineered in California</div>
-          <div className="flex gap-4 items-center">
-            <span className="text-[#666666]">Back to top</span>
-            <div
-              className="w-3 h-3 bg-black cursor-pointer"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            ></div>
-          </div>
-        </footer>
+        {/* Footer */}
+        <Footer />
       </main>
     </div>
   );

@@ -1,0 +1,16 @@
+{
+  "region_polygon": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [631050, 2496050],
+        [631950, 2496050],
+        [631950, 2496950],
+        [631050, 2496950],
+        [631050, 2496050]
+      ]
+    ],
+    "crs": { "type": "name", "properties": { "name": "EPSG:32645" } }
+  },
+  "rainfall_mm": 150
+}

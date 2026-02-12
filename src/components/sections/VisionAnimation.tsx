@@ -24,9 +24,9 @@ const VisionAnimation: React.FC = () => {
 
   // Content for the 3 phases
   const phases = [
-    { text: ["make ", "you ", "dream "], id: "w0" },
-    { text: ["touch ", "your ", "heart "], id: "w1" },
-    { text: ["surprise ", "your ", "users "], id: "w2" }
+    { text: ["Monitor", "River", "Health"], id: "w0" },
+    { text: ["Analyze", "Real-Time", "Data"], id: "w1" },
+    { text: ["Protect", "Our", "Future"], id: "w2" }
   ];
 
   // Helper to get opacity and transform for each text block based on scroll progress
@@ -75,9 +75,9 @@ const VisionAnimation: React.FC = () => {
                 >
                   <path 
                     d={scrollProgress < 0.33 
-                      ? "M100,130 Q700,10 1300,130" 
+                      ? "M100,130 Q700,-100 1300,130" 
                       : scrollProgress < 0.66 
-                        ? "M100,130 Q700,250 1300,130" 
+                        ? "M100,130 Q700,360 1300,130" 
                         : "M100,130 L1300,130"
                     }
                     className="transition-all duration-700 ease-in-out"
@@ -87,7 +87,7 @@ const VisionAnimation: React.FC = () => {
               </div>
 
               {/* Synchronized Text Transitions */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center">
+              <div className="absolute top-[35%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center">
                 {phases.map((phase, idx) => (
                   <p 
                     key={phase.id}
@@ -95,7 +95,7 @@ const VisionAnimation: React.FC = () => {
                     style={getPhaseStyles(idx)}
                   >
                     {phase.text.map((word, wIdx) => (
-                      <span key={wIdx} className="inline-block hover:italic transition-all duration-300">
+                      <span key={wIdx} className={`inline-block hover:italic transition-all duration-300 ${wIdx !== phase.text.length - 1 ? 'mr-4' : ''}`}>
                         {word}
                       </span>
                     ))}
@@ -104,19 +104,7 @@ const VisionAnimation: React.FC = () => {
               </div>
             </div>
 
-            {/* Bottom Progress Indicator (Pixel Style) */}
-            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-4">
-              {[0, 1, 2].map((dot) => (
-                <div 
-                  key={dot}
-                  className={`w-3 h-3 transition-colors duration-500 ${
-                    scrollProgress >= dot * 0.33 && scrollProgress < (dot + 1) * 0.33 
-                      ? 'bg-black' 
-                      : 'bg-gray-300'
-                  }`}
-                />
-              ))}
-            </div>
+
 
           </div>
         </div>
