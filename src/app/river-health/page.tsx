@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import Link from "next/link";
+import React, { useState, useEffect } from "react";
 import { 
   VideoCamera,
   Export,
@@ -37,6 +36,119 @@ import {
 export default function RiverHealthPage() {
   const { isCollapsed: isSidebarCollapsed, toggleSidebar } = useSidebar();
 
+  const [metrics, setMetrics] = useState({
+    dissolvedOxygen: { value: "6.0", trend: "-0.8" },
+    turbidity: { value: "38", trend: "+5" },
+    phLevel: { value: "7.2", trend: "stable" },
+    waterTemp: { value: "26", trend: "+1.5°C" },
+    pollutionEvents: { value: "3", trend: "+2 today" },
+    discharge: { value: "15", trend: "stable" }
+  });
+
+  const [chartData, setChartData] = useState<{ day: string; discharge: number; turbidity: number; }[]>([]);
+  const [pollutionChartData, setPollutionChartData] = useState<{ time: string; bod: number; do: number; }[]>([]);
+
+  useEffect(() => {
+    const fetchWeatherData = async () => {
+      try {
+        const apiKey = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
+        if (!apiKey) return;
+
+        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Kolkata&units=metric&appid=${apiKey}`);
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+
+        // Derived metrics logic
+        const temp = data.main.temp;
+        const clouds = data.clouds.all;
+        const isRaining = data.weather.some((w: any) => w.main === "Rain" || w.main === "Thunderstorm");
+
+        // Water Temp
+        const waterTempVal = temp.toFixed(1);
+
+        // Dissolved Oxygen: Inverse to temp. roughly 14.6 at 0C, 7 at 30C.
+        // Simple linear approx: 14 - (0.25 * temp)
+        const doVal = (14 - (0.25 * temp)).toFixed(1);
+
+        // Turbidity: Base 10 + (clouds * 0.3) + (rain ? 20 : 0)
+        let turbidityVal = 10 + (clouds * 0.3);
+        if (isRaining) turbidityVal += 20;
+        turbidityVal = Math.round(turbidityVal);
+
+        // pH: Base 7.4. Rain makes it slightly acidic (closer to 6.5-7.0)
+        const phVal = isRaining ? (6.8 + Math.random() * 0.4).toFixed(1) : (7.2 + Math.random() * 0.3).toFixed(1);
+
+        // Pollution Events: Random base + rain factor
+        const eventsVal = isRaining ? Math.floor(Math.random() * 5) + 3 : Math.floor(Math.random() * 3);
+
+        // Discharge: Base 15 + rain
+        const dischargeVal = Math.round(15 + (isRaining ? 10 : 0) + (Math.random() * 5 - 2.5));
+
+        setMetrics({
+          dissolvedOxygen: { 
+            value: doVal, 
+            trend: temp > 25 ? "-0.5" : "+0.2" 
+          },
+          turbidity: { 
+            value: turbidityVal.toString(), 
+            trend: isRaining ? "+15" : "-2" 
+          },
+          phLevel: { 
+            value: phVal, 
+            trend: isRaining ? "acidic" : "stable" 
+          },
+          waterTemp: { 
+            value: waterTempVal, 
+            trend: `${(temp - 25).toFixed(1)}°C` 
+          },
+          pollutionEvents: { 
+            value: eventsVal.toString(), 
+            trend: isRaining ? "High Risk" : "Low Risk" 
+          },
+          discharge: {
+            value: dischargeVal.toString(),
+            trend: isRaining ? "High" : "Normal"
+          }
+        });
+
+        // Generate Chart Data based on current conditions
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const today = new Date().getDay();
+        const newChartData = [];
+        for (let i = 0; i < 7; i++) {
+          const dayIndex = (today + i) % 7;
+          // Simulate variation
+          const varFactor = Math.random() * 5 - 2.5;
+          newChartData.push({
+            day: days[dayIndex],
+            discharge: Math.max(0, 15 + (isRaining ? 10 : 0) + varFactor),
+            turbidity: Math.max(0, turbidityVal + varFactor * 2)
+          });
+        }
+        setChartData(newChartData);
+
+        // Generate Pollution Chart Data (24h or similar)
+        const newPollutionData = [];
+        const baseDo = parseFloat(doVal);
+        for (let i = 0; i < 7; i++) {
+          const hour = (new Date().getHours() + i * 3) % 24;
+          const timeStr = `${hour.toString().padStart(2, '0')}:00`;
+          newPollutionData.push({
+            time: timeStr,
+            bod: 250 + Math.random() * 20 - 10,
+            do: Math.max(0, baseDo + (Math.random() * 1 - 0.5))
+          });
+        }
+        setPollutionChartData(newPollutionData);
+
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    fetchWeatherData();
+  }, []);
+
   return (
     <div className="flex min-h-screen bg-black text-zinc-50 font-sans selection:bg-blue-500/30">
       {/* Sidebar */}
@@ -71,45 +183,45 @@ export default function RiverHealthPage() {
           <MetricCard 
             icon={<WaveSine className="w-5 h-5 text-yellow-500" />}
             label="Dissolved Oxygen"
-            value="6.0"
+            value={metrics.dissolvedOxygen.value}
             unit="mg/L"
-            trend="-0.8"
+            trend={metrics.dissolvedOxygen.trend}
             trendColor="text-red-500"
             color="border-yellow-500/20"
           />
           <MetricCard 
             icon={<Eye className="w-5 h-5 text-blue-500" />}
             label="Turbidity"
-            value="38"
+            value={metrics.turbidity.value}
             unit="NTU"
-            trend="+5"
+            trend={metrics.turbidity.trend}
             trendColor="text-green-500"
             color="border-blue-500/20"
           />
           <MetricCard 
             icon={<Flask className="w-5 h-5 text-green-500" />}
             label="pH Level"
-            value="7.2"
+            value={metrics.phLevel.value}
             unit=""
-            trend="stable"
+            trend={metrics.phLevel.trend}
             trendColor="text-zinc-500"
             color="border-green-500/20"
           />
           <MetricCard 
             icon={<Thermometer className="w-5 h-5 text-blue-500" />}
             label="Water Temp"
-            value="26"
+            value={metrics.waterTemp.value}
             unit="°C"
-            trend="+1.5°C"
+            trend={metrics.waterTemp.trend}
             trendColor="text-green-500"
             color="border-blue-500/20"
           />
           <MetricCard 
             icon={<WarningCircle className="w-5 h-5 text-red-500" />}
             label="Pollution Events"
-            value="3"
+            value={metrics.pollutionEvents.value}
             unit=""
-            trend="+2 today"
+            trend={metrics.pollutionEvents.trend}
             trendColor="text-green-500"
             color="border-red-500/20"
           />
@@ -170,7 +282,7 @@ export default function RiverHealthPage() {
             <CardContent>
               <div className="h-[250px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={healthMetricsData}>
+                  <AreaChart data={chartData.length > 0 ? chartData : healthMetricsData}>
                     <defs>
                       <linearGradient id="colorDischarge" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#2563eb" stopOpacity={0.3}/>
@@ -208,15 +320,15 @@ export default function RiverHealthPage() {
               <div className="grid grid-cols-3 gap-4 mt-6">
                 <div className="bg-zinc-900/50 p-4 rounded-2xl border border-zinc-800">
                   <p className="text-xs text-zinc-500 mb-1">Current Discharge</p>
-                  <p className="text-xl font-mono text-blue-400">0 m³/s</p>
+                  <p className="text-xl font-mono text-blue-400">{metrics.discharge.value} m³/s</p>
                 </div>
                 <div className="bg-zinc-900/50 p-4 rounded-2xl border border-zinc-800">
                   <p className="text-xs text-zinc-500 mb-1">Avg Turbidity</p>
-                  <p className="text-xl font-mono text-yellow-400">~38 NTU</p>
+                  <p className="text-xl font-mono text-yellow-400">~{metrics.turbidity.value} NTU</p>
                 </div>
                 <div className="bg-zinc-900/50 p-4 rounded-2xl border border-zinc-800">
                   <p className="text-xs text-zinc-500 mb-1">pH Level</p>
-                  <p className="text-xl font-mono text-green-400">~7.0</p>
+                  <p className="text-xl font-mono text-green-400">~{metrics.phLevel.value}</p>
                 </div>
               </div>
             </CardContent>
@@ -234,7 +346,7 @@ export default function RiverHealthPage() {
             <CardContent>
               <div className="h-[250px] w-full relative">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={pollutionData}>
+                  <LineChart data={pollutionChartData.length > 0 ? pollutionChartData : pollutionData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
                     <XAxis dataKey="time" stroke="#71717a" fontSize={12} tickLine={false} axisLine={false} />
                     <YAxis stroke="#71717a" fontSize={12} tickLine={false} axisLine={false} />

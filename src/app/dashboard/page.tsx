@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { 
   RocketLaunch, 
@@ -32,6 +32,15 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import ReactMarkdown from "react-markdown";
+import { generateReport } from "@/app/actions/generateReport";
 import AppSidebar from "@/components/AppSidebar";
 import { useSidebar } from "@/components/SidebarProvider";
 import { 
@@ -48,9 +57,14 @@ import {
 
 export default function DashboardPage() {
   const { isCollapsed: isSidebarCollapsed, toggleSidebar } = useSidebar();
+  
+  const [isReportOpen, setIsReportOpen] = useState(false);
+  const [reportContent, setReportContent] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [rawWeatherData, setRawWeatherData] = useState<any>(null);
 
   // Mock Data for Weather
-  const weatherData = [
+  const [weatherData, setWeatherData] = useState([
     { day: "Mon", temperature: 28, rainfall: 0 },
     { day: "Tue", temperature: 27, rainfall: 5 },
     { day: "Wed", temperature: 26, rainfall: 10 },
@@ -58,7 +72,7 @@ export default function DashboardPage() {
     { day: "Fri", temperature: 24, rainfall: 0 },
     { day: "Sat", temperature: 23, rainfall: 15 },
     { day: "Sun", temperature: 22, rainfall: 2 },
-  ];
+  ]);
 
   // Mock Data for River Health
   const riverHealthData = [
@@ -71,7 +85,7 @@ export default function DashboardPage() {
     { time: "23:59", value: 86 },
   ];
 
-  const metrics = [
+  const initialMetrics = [
     {
       title: "Water Level",
       value: "12.4m",
@@ -113,6 +127,182 @@ export default function DashboardPage() {
       icon: <Thermometer className="w-6 h-6 text-cyan-400" />,
     }
   ];
+
+  const [metrics, setMetrics] = useState(initialMetrics);
+
+  useEffect(() => {
+    const fetchWeatherData = async () => {
+      try {
+        const apiKey = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
+        if (!apiKey) {
+          console.warn("OpenWeather API key is missing");
+          return;
+        }
+        
+        // Using Varanasi as a representative location for Ganga Basin
+        const response = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?q=Varanasi&units=metric&appid=${apiKey}`
+        );
+        
+        if (!response.ok) throw new Error("Weather fetch failed");
+        
+        const data = await response.json();
+        
+        setRawWeatherData(data);
+        
+        setMetrics(prevMetrics => prevMetrics.map(metric => {
+          // Map API data to specific cards
+          switch(metric.title) {
+            case "Temperature":
+              return {
+                ...metric,
+                value: Math.round(data.main.temp).toString(),
+                change: data.weather[0].main,
+                unit: "°C"
+              };
+            case "Flow Rate":
+              // Simulating flow rate correlation with wind/weather for demo
+              // Base 400 + wind effect
+              const flowVal = 400 + (data.wind.speed * 10);
+              return {
+                ...metric,
+                value: Math.round(flowVal).toString(),
+                change: data.wind.speed > 5 ? "+15" : "-12"
+              };
+            case "Water Level":
+              // Simulating water level based on humidity/recent rain proxy
+              // Base 12m + humidity effect
+              const level = 12 + (data.main.humidity / 100);
+              return {
+                ...metric,
+                value: level.toFixed(1) + "m",
+                change: data.rain ? "+0.3m" : "+0.1m"
+              };
+            case "Turbidity":
+              // Simulating turbidity based on clouds/visibility
+              // Low visibility or high clouds -> higher turbidity
+              const turbidity = 30 + (data.clouds.all / 5);
+              return {
+                ...metric,
+                value: Math.round(turbidity).toString(),
+                change: data.clouds.all > 50 ? "+2.1" : "-1.5"
+              };
+            case "Erosion Zones":
+              // Critical if raining or storming
+              const isBadWeather = ["Rain", "Thunderstorm", "Drizzle"].includes(data.weather[0].main);
+              return {
+                ...metric,
+                value: isBadWeather ? "5" : "3",
+                change: isBadWeather ? "high risk" : "stable",
+                unit: isBadWeather ? "high risk" : "monitored"
+              };
+            default:
+              return metric;
+          }
+        }));
+
+        // Also update the chart mock data with current temp
+        setWeatherData(prev => {
+          const newData = [...prev];
+          // Update today (last entry or mapped day) - simpler to just shift values or leave as mock for forecast
+          // But we can update the first entry to match current temp
+          if (newData.length > 0) {
+            newData[0].temperature = Math.round(data.main.temp);
+          }
+          return newData;
+        });
+
+      } catch (error) {
+        console.error("Failed to fetch weather data:", error);
+      }
+    };
+
+    fetchWeatherData();
+  }, []);
+
+  // Kolkata Area of Interest (AOI) for Model Simulation
+  const KOLKATA_AOI = {
+    type: "Polygon",
+    coordinates: [[
+      [88.35, 22.56],
+      [88.38, 22.56],
+      [88.38, 22.59],
+      [88.35, 22.59],
+      [88.35, 22.56]
+    ]]
+  };
+
+  const handleGenerateReport = async () => {
+    setIsGenerating(true);
+    try {
+      // 1. Gather Weather & Alert Data
+      const alerts = [{
+        type: "Flash Flood Warning",
+        time: new Date().toLocaleString(),
+        description: "Rapid water level rise detected. Expected depth: 2.4m in next 2 hours. • Ganga Basin - Sector 7",
+        severity: "High"
+      }];
+
+      // 2. Fetch Real-time Model Outputs (Flood Simulation & RF Prediction)
+      let modelOutputs = {
+        floodSimulation: null,
+        rfPrediction: null,
+        status: "Model data unavailable"
+      };
+
+      try {
+        // Prepare payload (using current weather rainfall or default)
+        // Note: OpenWeather 'rain' obj might be missing if no rain, default to 0
+        const rainfall = rawWeatherData?.rain?.['1h'] || 0; 
+        
+        const [floodRes, rfRes] = await Promise.all([
+          fetch("http://localhost:8000/simulate-flood", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              region_polygon: KOLKATA_AOI,
+              rainfall_mm: rainfall > 0 ? rainfall : 50 // Default to 50mm for simulation if no rain
+            })
+          }),
+          fetch("http://localhost:8000/predict-rf", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              region_polygon: KOLKATA_AOI,
+              threshold_proba: 0.5
+            })
+          })
+        ]);
+
+        if (floodRes.ok && rfRes.ok) {
+          modelOutputs.floodSimulation = await floodRes.json();
+          modelOutputs.rfPrediction = await rfRes.json();
+          modelOutputs.status = "Live Model Data Acquired";
+        }
+      } catch (modelError) {
+        console.warn("Failed to connect to local model API:", modelError);
+      }
+
+      // 3. Generate Report with Combined Data
+      const fullMetrics = {
+        ...metrics,
+        modelAnalysis: modelOutputs
+      };
+
+      const result = await generateReport(weatherData, fullMetrics, alerts);
+      
+      if (result.success && result.report) {
+        setReportContent(result.report);
+        setIsReportOpen(true);
+      } else {
+        console.error("Failed to generate report:", result.error);
+      }
+    } catch (error) {
+      console.error("Error generating report:", error);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   return (
     <div className="flex min-h-screen bg-black text-white font-sans selection:bg-blue-500/30">
@@ -192,9 +382,23 @@ export default function DashboardPage() {
             Trigger Alert
           </Button>
           
-          <Button variant="secondary" className="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-xl px-6">
-            <FileText className="w-4 h-4 mr-2" />
-            Generate Report
+          <Button 
+            variant="secondary" 
+            className="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-xl px-6"
+            onClick={handleGenerateReport}
+            disabled={isGenerating}
+          >
+            {isGenerating ? (
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 border-2 border-zinc-400 border-t-transparent rounded-full animate-spin" />
+                <span>Generating...</span>
+              </div>
+            ) : (
+              <>
+                <FileText className="w-4 h-4 mr-2" />
+                Generate Report
+              </>
+            )}
           </Button>
           
           <Button variant="secondary" className="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-xl px-6">
@@ -352,6 +556,39 @@ export default function DashboardPage() {
           </Card>
         </div>
       </main>
+
+      {/* Report Dialog */}
+      <Dialog open={isReportOpen} onOpenChange={setIsReportOpen}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto bg-zinc-950 border-zinc-800 text-zinc-100">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-semibold flex items-center gap-2">
+              <FileText className="w-5 h-5 text-blue-500" />
+              Comprehensive River Health Report
+            </DialogTitle>
+            <DialogDescription className="text-zinc-400">
+              Generated by Gemini 2.5 Flash 
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="mt-4 max-w-none">
+            <ReactMarkdown
+              components={{
+                h1: ({...props}) => <h1 className="text-2xl font-bold mb-4 text-blue-400" {...props} />,
+                h2: ({...props}) => <h2 className="text-xl font-semibold mb-3 mt-6 text-blue-300" {...props} />,
+                h3: ({...props}) => <h3 className="text-lg font-medium mb-2 mt-4 text-blue-200" {...props} />,
+                p: ({...props}) => <p className="mb-4 leading-relaxed text-zinc-300" {...props} />,
+                ul: ({...props}) => <ul className="list-disc pl-5 mb-4 space-y-1 text-zinc-300" {...props} />,
+                ol: ({...props}) => <ol className="list-decimal pl-5 mb-4 space-y-1 text-zinc-300" {...props} />,
+                li: ({...props}) => <li className="pl-1" {...props} />,
+                strong: ({...props}) => <strong className="font-semibold text-white" {...props} />,
+                blockquote: ({...props}) => <blockquote className="border-l-4 border-blue-500/50 pl-4 italic my-4 text-zinc-400" {...props} />,
+              }}
+            >
+              {reportContent}
+            </ReactMarkdown>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
